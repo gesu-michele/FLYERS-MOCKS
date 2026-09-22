@@ -167,6 +167,29 @@
       line-height: 1.55;
     }
 
+    /* CONTENEDOR ENCUADRADO PERFECTO DE IMAGEN (SIN DEFORMACIONES) */
+    .scene-frame-box {
+      width: 100%;
+      max-width: 980px;
+      margin: 0 auto 28px auto;
+      border-radius: 28px;
+      overflow: hidden;
+      border: 4.5px solid var(--card-border);
+      background: #eef7fc;
+      box-shadow: 0 12px 28px rgba(37, 117, 252, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .scene-frame-box img {
+      width: 100%;
+      max-height: 480px;
+      height: auto;
+      object-fit: contain;
+      display: block;
+    }
+
     .pill-bank {
       display: flex;
       justify-content: center;
@@ -297,6 +320,7 @@
     .reference-stage img, .reference-stage svg {
       width: 100%;
       max-height: 480px;
+      height: auto;
       object-fit: contain;
       display: block;
       margin: 0 auto;
@@ -487,13 +511,6 @@
     }
     .btn-next:hover { transform: translateY(-3px); box-shadow: 0 10px 0 #0d8a44; }
 
-    .btn-forward {
-      background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
-      color: #ffffff;
-      box-shadow: 0 7px 0 #075985, 0 12px 24px rgba(2, 132, 199, 0.4);
-    }
-    .btn-forward:hover { transform: translateY(-3px); box-shadow: 0 10px 0 #075985; }
-
     .btn-prev {
       background: #ffffff;
       border: 3.5px solid #cbd5e1;
@@ -542,7 +559,6 @@
       p7: { q1: "", q2: "", q3: "", q4: "", q5: "" }
     };
 
-    // Official Cambridge Flyers Mock 02 Answer Key
     const answerKey = {
       p1: {
         q1: ["jam"],
@@ -742,7 +758,7 @@
     }
 
     // ==========================================
-    // PART 2: PICTURE VERIFICATION (7 Questions)
+    // PART 2: PICTURE VERIFICATION (ENCUADRE PERFECTO)
     // ==========================================
     function renderPart2(mount) {
       const questions = [
@@ -775,7 +791,8 @@
         <div class="instructions-box">
           Look and read carefully. Choose <b>yes</b> or <b>no</b> for each sentence according to the scene.
         </div>
-        <div class="reference-stage">
+        <!-- CONTENEDOR DE IMAGEN ENCUADRADO Y LIMPIO -->
+        <div class="scene-frame-box">
           <img src="mock02-part2-scene.jpg" alt="Castle Hill Scene" onerror="tryNextExtension(this, 'mock02-part2-scene', 1)">
         </div>
         <div class="reading-content-box">
@@ -875,7 +892,7 @@
         <div class="instructions-box">
           May has won a competition. She's talking to her mum about it. Read the conversation and choose the best answer (A–H).
         </div>
-        <div class="reference-stage" style="max-width:580px; margin:0 auto 24px auto;">
+        <div class="scene-frame-box" style="max-width:580px; margin:0 auto 24px auto;">
           <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=1200&q=80" alt="Mum and daughter talking in the kitchen" onerror="tryNextExtension(this, 'mock02-part3-scene', 0)">
         </div>
         <div style="display:grid; grid-template-columns: 1.15fr 0.85fr; gap:24px;">
@@ -955,7 +972,7 @@
         <div class="instructions-box">
           Read the story. Choose a word from the box for each number (1–5). Then choose the best name for the story.
         </div>
-        <div class="reference-stage" style="max-width:580px; margin:0 auto 24px auto;">
+        <div class="scene-frame-box" style="max-width:580px; margin:0 auto 24px auto;">
           <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1200&q=80" alt="Young boy recovering in hospital bed with arm cast" onerror="tryNextExtension(this, 'mock02-part4-scene', 0)">
         </div>
         <div class="pill-bank" style="margin-bottom:20px;">
@@ -1033,7 +1050,7 @@
         <div class="instructions-box">
           Look at the picture and read the story. Write some words to complete the sentences about the story. You can use <b>1, 2, 3 or 4 words</b>.
         </div>
-        <div class="reference-stage" style="max-width:640px; margin:0 auto 24px auto;">
+        <div class="scene-frame-box" style="max-width:640px; margin:0 auto 24px auto;">
           <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80" alt="Family hiking on high mountains" onerror="tryNextExtension(this, 'mock02-part5-scene', 0)">
         </div>
         <div class="story-reading-box">
@@ -1092,19 +1109,15 @@
         `;
       }
 
-      // Gráfico vectorial SVG profesional y nativo: Terminal de Aeropuerto con Pista, Avión y Torre de Control
       const airportSvg = `
         <svg viewBox="0 0 800 360" width="100%" height="100%" style="display:block; border-radius:24px; background:linear-gradient(180deg, #7dd3fc 0%, #bae6fd 55%, #e2e8f0 56%, #94a3b8 100%);">
-          <!-- Sol y Nubes -->
           <circle cx="700" cy="70" r="38" fill="#fde047" opacity="0.9"/>
           <ellipse cx="140" cy="80" rx="46" ry="18" fill="#ffffff" opacity="0.85"/>
           <ellipse cx="170" cy="74" rx="34" ry="22" fill="#ffffff" opacity="0.95"/>
           <ellipse cx="490" cy="65" rx="55" ry="20" fill="#ffffff" opacity="0.8"/>
 
-          <!-- Edificio Terminal del Aeropuerto -->
           <rect x="240" y="110" width="320" height="90" fill="#ffffff" stroke="#cbd5e1" stroke-width="3"/>
           <rect x="255" y="125" width="290" height="35" fill="#38bdf8" opacity="0.75" rx="4"/>
-          <!-- Ventanales de la terminal -->
           <line x1="310" y1="125" x2="310" y2="160" stroke="#ffffff" stroke-width="2"/>
           <line x1="365" y1="125" x2="365" y2="160" stroke="#ffffff" stroke-width="2"/>
           <line x1="420" y1="125" x2="420" y2="160" stroke="#ffffff" stroke-width="2"/>
@@ -1112,28 +1125,21 @@
           <rect x="360" y="168" width="80" height="32" fill="#0284c7" rx="3"/>
           <text x="400" y="189" font-family="'Fredoka', sans-serif" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle">TERMINAL</text>
 
-          <!-- Torre de Control -->
           <rect x="580" y="60" width="45" height="140" fill="#f8fafc" stroke="#94a3b8" stroke-width="2.5"/>
           <polygon points="565,60 640,60 630,40 575,40" fill="#0284c7"/>
           <rect x="575" y="44" width="55" height="14" fill="#38bdf8"/>
-          <!-- Antena radar -->
           <line x1="602" y1="40" x2="602" y2="20" stroke="#0369a1" stroke-width="3"/>
           <circle cx="602" cy="18" r="4" fill="#ef4444"/>
 
-          <!-- Pista de Aterrizaje Asfalto -->
           <polygon points="0 200, 800 200, 800 360, 0 360" fill="#334155"/>
-          <!-- Líneas de la pista -->
           <line x1="40" y1="280" x2="140" y2="280" stroke="#f8fafc" stroke-width="8" stroke-dasharray="20 15"/>
           <line x1="220" y1="280" x2="360" y2="280" stroke="#f8fafc" stroke-width="8" stroke-dasharray="20 15"/>
           <line x1="440" y1="280" x2="580" y2="280" stroke="#f8fafc" stroke-width="8" stroke-dasharray="20 15"/>
           <line x1="660" y1="280" x2="760" y2="280" stroke="#f8fafc" stroke-width="8" stroke-dasharray="20 15"/>
 
-          <!-- Avión Comercial en Rampa -->
           <g transform="translate(180, 240) scale(0.95)">
-            <!-- Fuselaje -->
             <ellipse cx="0" cy="0" rx="95" ry="24" fill="#ffffff" stroke="#94a3b8" stroke-width="2"/>
             <path d="M-80 0 L-95 -8 L-95 0 Z" fill="#0284c7"/>
-            <!-- Ventanillas de cabina y pasajeros -->
             <circle cx="75" cy="-4" r="3.5" fill="#0284c7"/>
             <circle cx="55" cy="-3" r="3" fill="#0284c7"/>
             <circle cx="40" cy="-3" r="3" fill="#0284c7"/>
@@ -1141,24 +1147,18 @@
             <circle cx="10" cy="-3" r="3" fill="#0284c7"/>
             <circle cx="-5" cy="-3" r="3" fill="#0284c7"/>
             <circle cx="-20" cy="-3" r="3" fill="#0284c7"/>
-            <!-- Ala -->
             <polygon points="-15,0 20,40 -5,40 -28,0" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1.5"/>
-            <!-- Cola -->
             <polygon points="-75,-16 -92,-48 -70,-48 -55,-16" fill="#0284c7"/>
-            <!-- Turbina -->
             <rect x="5" y="24" width="28" height="12" rx="4" fill="#64748b"/>
           </g>
 
-          <!-- Helicóptero en Vuelo Superior Izquierdo -->
           <g transform="translate(120, 80) scale(0.65)">
             <ellipse cx="0" cy="0" rx="35" ry="18" fill="#ef4444"/>
             <ellipse cx="14" cy="-2" rx="14" ry="12" fill="#38bdf8"/>
             <line x1="-30" y1="0" x2="-65" y2="-5" stroke="#ef4444" stroke-width="6"/>
             <line x1="-65" y1="-14" x2="-65" y2="4" stroke="#1e293b" stroke-width="3"/>
-            <!-- Rotor -->
             <line x1="0" y1="-18" x2="0" y2="-25" stroke="#1e293b" stroke-width="4"/>
             <line x1="-45" y1="-25" x2="45" y2="-25" stroke="#1e293b" stroke-width="3.5"/>
-            <!-- Patines -->
             <line x1="-15" y1="18" x2="-10" y2="24" stroke="#1e293b" stroke-width="2.5"/>
             <line x1="15" y1="18" x2="20" y2="24" stroke="#1e293b" stroke-width="2.5"/>
             <line x1="-25" y1="24" x2="30" y2="24" stroke="#1e293b" stroke-width="3"/>
@@ -1173,7 +1173,7 @@
         <div class="instructions-box">
           Read the text. Choose the right words and write them on the lines (1–10).
         </div>
-        <div class="reference-stage" style="max-width:680px; margin:0 auto 24px auto; border-radius:26px; border:4px solid #0284c7; box-shadow:0 12px 28px rgba(2, 132, 199, 0.25);">
+        <div class="scene-frame-box" style="max-width:680px; margin:0 auto 24px auto; border-color:#0284c7; box-shadow:0 12px 28px rgba(2, 132, 199, 0.25);">
           ${airportSvg}
         </div>
         <div class="story-reading-box">
@@ -1210,7 +1210,7 @@
         <div class="instructions-box">
           Read the diary and write the missing words. <b>Write one word on each line.</b>
         </div>
-        <div class="reference-stage" style="max-width:540px; margin:0 auto 24px auto;">
+        <div class="scene-frame-box" style="max-width:540px; margin:0 auto 24px auto;">
           <img src="https://images.unsplash.com/photo-1534567153574-2b12153a87f0?auto=format&fit=crop&w=1200&q=80" alt="Children enjoying a visit to the city zoo" onerror="tryNextExtension(this, 'mock02-part7-scene', 0)">
         </div>
         <div class="story-reading-box" style="font-family:'Quicksand',sans-serif; border-left:14px solid var(--bubble-blue); max-width:880px; margin:0 auto;">
@@ -1315,6 +1315,23 @@
       else if (totalScore >= 24) shields = 3;
       else if (totalScore >= 16) shields = 2;
 
+      localStorage.setItem("flyers_reading_score_02", totalScore);
+
+      const rawMocks = localStorage.getItem("flyers_mocks_status_01_30");
+      if (rawMocks) {
+        try {
+          let st = JSON.parse(rawMocks);
+          if (st[2]) {
+            st[2].readingWritingScore = totalScore;
+            st[2].completed = true;
+          }
+          if (st[3]) {
+            st[3].unlocked = true;
+          }
+          localStorage.setItem("flyers_mocks_status_01_30", JSON.stringify(st));
+        } catch(e) {}
+      }
+
       function renderFbSection(title, list) {
         return `
           <div class="feedback-part-title">${title}</div>
@@ -1353,9 +1370,10 @@
           ${renderFbSection("Part 7 — Open Cloze: Zoo Diary", fb.p7)}
         </div>
 
-        <div class="bottom-bar" style="justify-content:center; gap:20px;">
-          <button class="btn-act btn-prev" onclick="location.reload()">🔄 Try Mock Again</button>
-          <a href="reading-mock03.html" class="btn-act btn-forward">Go to Mock 03 ➔ 📖</a>
+        <!-- BOTONES DE NAVEGACIÓN CORREGIDOS (REDIRECCIÓN DIRECTA AL LISTENING DEL MOCK 03) -->
+        <div style="display:flex; justify-content:center; gap:22px; margin-top:36px; flex-wrap:wrap;">
+          <a href="index.html" class="btn-act btn-prev" style="text-decoration:none;">⬅ Volver al Mapa</a>
+          <a href="listening-mock03.html" class="btn-act btn-next" style="text-decoration:none;">Ir a Mock 03 (Listening) ➔</a>
         </div>
       `;
     }
