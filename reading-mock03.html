@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A2 Flyers Mock 03 - Reading & Writing | Dr. Jesús Miguel Lima E.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-sky: #dcf2ff;
+      --bubble-cyan: #00c4cc;
+      --bubble-blue: #0284c7;
+      --bubble-yellow: #ffb800;
+      --bubble-orange: #ff5722;
+      --bubble-green: #00d084;
+      --bubble-purple: #7928ca;
+      --text-dark: #121829;
+      --text-sub: #334155;
+      --white: #ffffff;
+      --card-border: #a5d8ff;
+      --correct: #00d084;
+      --wrong: #ff5722;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(180deg, #b3e0ff 0%, #dbf0ff 40%, #fff2d6 100%);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+      font-size: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .glowing-aura {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+      z-index: 0;
+      animation: pulseGlow 7s ease-in-out infinite alternate;
+    }
+    .aura-cyan { width: 550px; height: 550px; background: rgba(0, 196, 204, 0.4); top: -120px; left: -100px; }
+    .aura-yellow { width: 620px; height: 620px; background: rgba(255, 184, 0, 0.35); bottom: -120px; right: -100px; animation-delay: -3.5s; }
+    .aura-purple { width: 480px; height: 480px; background: rgba(121, 40, 202, 0.28); top: 35%; right: 25%; animation-delay: -5s; }
+
+    @keyframes pulseGlow {
+      0% { transform: scale(1) translate(0, 0); opacity: 0.65; }
+      50% { transform: scale(1.22) translate(35px, 25px); opacity: 1; filter: blur(120px); }
+      100% { transform: scale(0.92) translate(-25px, -18px); opacity: 0.65; }
+    }
+
+    .top-nav {
+      height: 86px;
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom: 4px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      box-shadow: 0 10px 24px rgba(37, 117, 252, 0.12);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+
+    .btn-back-home {
+      background: #ffffff;
+      border: 3.5px solid #cbd5e1;
+      border-radius: 999px;
+      padding: 10px 24px;
+      font-family: 'Fredoka', cursive;
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--text-sub);
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 5px 0 #cbd5e1;
+      transition: all 0.15s ease;
+    }
+    .btn-back-home:hover { transform: translateY(-2px); box-shadow: 0 7px 0 #cbd5e1; }
+
+    .exam-tag {
+      font-family: 'Fredoka', cursive;
+      font-size: 22px;
+      color: #0b5cab;
+      background: #e1f2ff;
+      border: 3px solid #bfe3ff;
+      padding: 10px 26px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .timer-badge {
+      font-family: 'Fredoka', cursive;
+      font-size: 21px;
+      color: #523100;
+      background: #fff3cc;
+      border: 3.5px solid #ffcc00;
+      padding: 8px 24px;
+      border-radius: 999px;
+      box-shadow: 0 5px 0 #e6b800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .main-wrap {
+      max-width: 1240px;
+      width: 100%;
+      margin: 30px auto 50px auto;
+      padding: 0 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 1;
+    }
+
+    .exam-card {
+      background: rgba(255, 255, 255, 0.98);
+      border: 5px solid var(--card-border);
+      border-radius: 40px;
+      padding: 42px;
+      box-shadow: 0 18px 40px rgba(37, 117, 252, 0.16);
+      position: relative;
+    }
+
+    .part-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    .part-title {
+      font-family: 'Fredoka', cursive;
+      font-size: 32px;
+      color: #0b5cab;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .instructions-box {
+      background: #f0f8ff;
+      border-left: 10px solid var(--bubble-cyan);
+      border-radius: 0 24px 24px 0;
+      padding: 20px 28px;
+      font-size: 21px;
+      color: #1e293b;
+      font-weight: 700;
+      margin-bottom: 28px;
+      line-height: 1.55;
+    }
+
+    .pill-bank {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      background: #f8fbff;
+      padding: 20px;
+      border-radius: 28px;
+      border: 3.5px dashed var(--card-border);
+    }
+
+    .word-pill {
+      font-family: 'Fredoka', cursive;
+      font-size: 20px;
+      background: #ffffff;
+      border: 3.5px solid var(--bubble-blue);
+      color: var(--bubble-blue);
+      padding: 8px 24px;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 0 5px 0 var(--bubble-blue);
+      transition: all 0.15s ease;
+    }
+    .word-pill:hover { transform: translateY(-2px); }
+    .word-pill.selected {
+      background: var(--bubble-orange);
+      border-color: #d83d0f;
+      color: #ffffff;
+      box-shadow: 0 0 20px rgba(255, 87, 34, 0.7), 0 5px 0 #b32a00;
+      transform: scale(1.08);
+    }
+    .word-pill.used {
+      background: #e2e8f0;
+      border-color: #cbd5e1;
+      color: #94a3b8;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+
+    .reading-content-box {
+      background: #ffffff;
+      border: 4px solid var(--card-border);
+      border-radius: 30px;
+      padding: 30px;
+      margin-bottom: 24px;
+      box-shadow: 0 8px 20px rgba(37, 117, 252, 0.06);
+    }
+
+    .qa-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 16px 0;
+      border-bottom: 2px dashed #e2e8f0;
+      font-weight: 700;
+      font-size: 20px;
+    }
+    .qa-row:last-child { border-bottom: none; }
+    .qa-text { flex: 1; line-height: 1.5; }
+
+    .interactive-line-slot {
+      min-width: 220px;
+      padding: 10px 18px;
+      border: 3px dashed var(--bubble-blue);
+      border-radius: 16px;
+      background: #f8fbff;
+      text-align: center;
+      font-family: 'Fredoka', cursive;
+      font-size: 20px;
+      color: var(--bubble-blue);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .interactive-line-slot.filled {
+      border: 3px solid var(--bubble-cyan);
+      background: var(--bubble-cyan);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 196, 204, 0.35);
+    }
+    .interactive-line-slot.example-slot {
+      border: 3px solid var(--bubble-green);
+      background: #dcfce7;
+      color: #15803d;
+      cursor: default;
+    }
+
+    .toggle-btn-group {
+      display: flex;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .toggle-btn {
+      font-family: 'Fredoka', cursive;
+      font-size: 19px;
+      padding: 8px 24px;
+      border-radius: 999px;
+      border: 3px solid #cbd5e1;
+      background: #ffffff;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #cbd5e1;
+      transition: all 0.15s ease;
+    }
+    .toggle-btn:hover { transform: translateY(-2px); }
+    .toggle-btn.sel-yes {
+      background: var(--bubble-green);
+      border-color: #15803d;
+      color: #ffffff;
+      box-shadow: 0 4px 0 #15803d;
+    }
+    .toggle-btn.sel-no {
+      background: var(--bubble-orange);
+      border-color: #c2410c;
+      color: #ffffff;
+      box-shadow: 0 4px 0 #c2410c;
+    }
+
+    .reference-stage {
+      text-align: center;
+      margin-bottom: 26px;
+      border-radius: 28px;
+      overflow: hidden;
+      border: 4px solid var(--card-border);
+      background: #f8fafc;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+    }
+    .reference-stage img, .reference-stage svg {
+      width: 100%;
+      max-height: 480px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .chat-speaker-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+    .speaker-avatar {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--card-border);
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      flex-shrink: 0;
+    }
+
+    .letter-dropdown {
+      width: 64px;
+      height: 56px;
+      border: 3.5px solid var(--text-dark);
+      border-radius: 16px;
+      background: #ffffff;
+      font-family: 'Fredoka', cursive;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--bubble-orange);
+      text-align: center;
+      outline: none;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #94a3b8;
+    }
+    .letter-dropdown:focus {
+      border-color: var(--bubble-cyan);
+      box-shadow: 0 0 14px rgba(0, 196, 204, 0.6);
+    }
+
+    .input-reading {
+      font-family: 'Fredoka', cursive;
+      font-size: 21px;
+      font-weight: 600;
+      padding: 8px 18px;
+      border: 3.5px solid var(--card-border);
+      border-radius: 16px;
+      outline: none;
+      color: #0b5cab;
+      background: #f8fbfe;
+      transition: all 0.2s;
+    }
+    .input-reading:focus {
+      border-color: var(--bubble-cyan);
+      background: #ffffff;
+      box-shadow: 0 0 0 5px rgba(0, 196, 204, 0.25);
+    }
+
+    .title-choice-card {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 18px 24px;
+      border-radius: 20px;
+      border: 3.5px solid #cbd5e1;
+      background: #ffffff;
+      cursor: pointer;
+      box-shadow: 0 5px 0 #cbd5e1;
+      font-family: 'Fredoka', cursive;
+      font-size: 22px;
+      transition: all 0.15s ease;
+      color: var(--text-dark);
+      margin-bottom: 12px;
+    }
+    .title-choice-card:hover {
+      border-color: var(--bubble-cyan);
+      transform: translateY(-2px);
+    }
+    .title-choice-card.selected {
+      background: #f0fdf4;
+      border-color: var(--bubble-green);
+      color: #15803d;
+      box-shadow: 0 5px 0 #15803d;
+      transform: scale(1.01);
+    }
+    .title-choice-card input[type="radio"] {
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      accent-color: #15803d;
+    }
+
+    .story-reading-box {
+      font-size: 22px;
+      line-height: 2.1;
+      color: #1e293b;
+      font-weight: 600;
+      background: #ffffff;
+      border: 4px solid var(--card-border);
+      border-radius: 30px;
+      padding: 34px;
+      box-shadow: 0 10px 24px rgba(37, 117, 252, 0.08);
+      margin-bottom: 28px;
+    }
+
+    .cloze-dropdown {
+      font-family: 'Fredoka', cursive;
+      font-size: 21px;
+      font-weight: 700;
+      color: var(--bubble-blue);
+      background: #f8fbff;
+      border: 3px solid var(--bubble-blue);
+      border-radius: 14px;
+      padding: 4px 14px;
+      outline: none;
+      cursor: pointer;
+      box-shadow: 0 3px 0 var(--bubble-blue);
+      margin: 0 4px;
+    }
+    .cloze-dropdown:focus { border-color: var(--bubble-orange); box-shadow: 0 3px 0 #c2410c; }
+
+    .feedback-panel-card {
+      background: #ffffff;
+      border: 3.5px solid var(--card-border);
+      border-radius: 28px;
+      padding: 28px 32px;
+      max-width: 960px;
+      margin: 28px auto 0 auto;
+      text-align: left;
+      box-shadow: 0 10px 24px rgba(37, 117, 252, 0.08);
+    }
+    .feedback-part-title {
+      font-family: 'Fredoka', cursive;
+      font-size: 24px;
+      color: #0b5cab;
+      border-bottom: 2.5px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-top: 24px;
+      margin-bottom: 12px;
+    }
+    .feedback-part-title:first-child { margin-top: 0; }
+    .feedback-item-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 8px 0;
+      font-size: 18px;
+      line-height: 1.45;
+    }
+    .fb-tag {
+      font-family: 'Fredoka', cursive;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+    .fb-correct { background: #dcfce7; color: #15803d; border: 1.5px solid #86efac; }
+    .fb-wrong { background: #fee2e2; color: #b91c1c; border: 1.5px solid #fca5a5; }
+
+    .bottom-bar {
+      margin-top: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+      flex-wrap: wrap;
+    }
+    .btn-act {
+      font-family: 'Fredoka', cursive;
+      font-size: 21px;
+      font-weight: 600;
+      padding: 18px 42px;
+      border-radius: 999px;
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+    .btn-next {
+      background: linear-gradient(180deg, #2fd277 0%, #15b35c 100%);
+      color: #ffffff;
+      box-shadow: 0 7px 0 #0d8a44, 0 12px 24px rgba(21, 179, 92, 0.4);
+    }
+    .btn-next:hover { transform: translateY(-3px); box-shadow: 0 10px 0 #0d8a44; }
+
+    .btn-finish-all {
+      background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
+      color: #ffffff;
+      box-shadow: 0 7px 0 #075985, 0 12px 24px rgba(2, 132, 199, 0.4);
+    }
+    .btn-finish-all:hover { transform: translateY(-3px); box-shadow: 0 10px 0 #075985; }
+
+    .btn-prev {
+      background: #ffffff;
+      border: 3.5px solid #cbd5e1;
+      color: #64748b;
+      box-shadow: 0 6px 0 #94a3b8;
+    }
+
+    @media (max-width: 980px) {
+      .top-nav { padding: 0 20px; }
+      .exam-card { padding: 24px; }
+      .qa-row { flex-direction: column; align-items: flex-start; }
+      .interactive-line-slot { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glowing-aura aura-cyan"></div>
+  <div class="glowing-aura aura-yellow"></div>
+  <div class="glowing-aura aura-purple"></div>
+
+  <header class="top-nav">
+    <a href="index.html" class="btn-back-home">⬅ Exit to Map</a>
+    <div class="exam-tag"><span>📖</span> Mock 03 • Reading & Writing</div>
+    <div class="timer-badge">
+      <span>⏰</span> <span id="timerTxt">45:00</span>
+      <span style="font-size:14px; color:#78350f; font-weight:700;">(Practice Mode)</span>
+    </div>
+  </header>
+
+  <main class="main-wrap">
+    <div class="exam-card" id="examMount"></div>
+  </main>
+
+  <script>
+    let currentPart = 1;
+    let selectedWordP1 = null;
+
+    const userAnswers = {
+      p1: { q1: "", q2: "", q3: "", q4: "", q5: "", q6: "", q7: "", q8: "", q9: "", q10: "" },
+      p2: { q1: "", q2: "", q3: "", q4: "", q5: "", q6: "", q7: "" },
+      p3: { q1: "", q2: "", q3: "", q4: "", q5: "" },
+      p4: { q1: "", q2: "", q3: "", q4: "", q5: "", q6: "" },
+      p5: { q1: "", q2: "", q3: "", q4: "", q5: "", q6: "", q7: "" },
+      p6: { q1: "", q2: "", q3: "", q4: "", q5: "", q6: "", q7: "", q8: "", q9: "", q10: "" },
+      p7: { q1: "", q2: "", q3: "", q4: "", q5: "" }
+    };
+
+    // Official Cambridge Flyers Mock 03 Answer Key
+    const answerKey = {
+      p1: {
+        q1: ["an umbrella"],
+        q2: ["a farmer"],
+        q3: ["cookies"],
+        q4: ["soap"],
+        q5: ["a comb"],
+        q6: ["an octopus"],
+        q7: ["a flashlight"],
+        q8: ["bats"],
+        q9: ["doctors"],
+        q10: ["plates"]
+      },
+      p2: {
+        q1: "no",
+        q2: "no",
+        q3: "yes",
+        q4: "no",
+        q5: "no",
+        q6: "no",
+        q7: "yes"
+      },
+      p3: {
+        q1: "F",
+        q2: "B",
+        q3: "G",
+        q4: "H",
+        q5: "C"
+      },
+      p4: {
+        q1: ["top"],
+        q2: ["afraid"],
+        q3: ["tent"],
+        q4: ["gold"],
+        q5: ["forget"],
+        q6: "My very best three days"
+      },
+      p5: {
+        q1: ["dark"],
+        q2: ["silver"],
+        q3: ["unhappy", "sad"],
+        q4: ["school", "class"],
+        q5: ["birds", "the birds"],
+        q6: ["lovely red spotted butterfly", "red spotted butterfly", "butterfly", "lovely butterfly", "spotted butterfly"],
+        q7: ["small leaf", "a leaf", "the leaf", "the small leaf", "leaf"]
+      },
+      p6: {
+        q1: "ago",
+        q2: "that",
+        q3: "since",
+        q4: "can't",
+        q5: "of",
+        q6: "all",
+        q7: "moves",
+        q8: "sing",
+        q9: "no",
+        q10: "in"
+      },
+      p7: {
+        q1: ["fell", "tripped", "slipped"],
+        q2: ["on", "across", "over"],
+        q3: ["socks"],
+        q4: ["from", "at"],
+        q5: ["were", "felt", "got"]
+      }
+    };
+
+    function cleanInput(str) {
+      return (str || "")
+        .toLowerCase()
+        .replace(/[’‘`]/g, "'")
+        .replace(/[^\w\s']/g, "")
+        .trim();
+    }
+
+    function tryNextExtension(imgEl, baseName, currentIndex = 0) {
+      const exts = ['.jpg', '.png', '.jpeg', '.webp', '.svg'];
+      if (currentIndex < exts.length) {
+        imgEl.onerror = () => tryNextExtension(imgEl, baseName, currentIndex + 1);
+        imgEl.src = baseName + exts[currentIndex];
+      } else {
+        imgEl.style.display = 'none';
+      }
+    }
+
+    let secondsLeft = 45 * 60;
+    const timerInterval = setInterval(() => {
+      if (secondsLeft <= 0) {
+        clearInterval(timerInterval);
+        alert("⏰ Practice Time is up! Reviewing your scores now...");
+        finishExam();
+        return;
+      }
+      secondsLeft--;
+      const m = Math.floor(secondsLeft / 60).toString().padStart(2, '0');
+      const s = (secondsLeft % 60).toString().padStart(2, '0');
+      const timerEl = document.getElementById('timerTxt');
+      if (timerEl) timerEl.textContent = `${m}:${s}`;
+    }, 1000);
+
+    function nextPart(step) { currentPart = step; renderScreen(); }
+    function prevPart(step) { currentPart = step; renderScreen(); }
+
+    function renderScreen() {
+      const mount = document.getElementById('examMount');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      if (currentPart === 1) renderPart1(mount);
+      else if (currentPart === 2) renderPart2(mount);
+      else if (currentPart === 3) renderPart3(mount);
+      else if (currentPart === 4) renderPart4(mount);
+      else if (currentPart === 5) renderPart5(mount);
+      else if (currentPart === 6) renderPart6(mount);
+      else if (currentPart === 7) renderPart7(mount);
+      else if (currentPart === 8) renderResults(mount);
+    }
+
+    // ==========================================
+    // PART 1: DEFINITIONS (10 Questions)
+    // ==========================================
+    function renderPart1(mount) {
+      const words = [
+        "bats", "a comb", "a farmer", "cookies", "a swan",
+        "puppies", "an umbrella", "doctors", "soap", "plates",
+        "jam", "a flashlight", "an octopus", "a mechanic"
+      ];
+
+      const questions = [
+        { id: "q1", text: "If you take one of these with you, you don't get wet when it rains." },
+        { id: "q2", text: "This person grows plants like potatoes in fields and then sells them to shops." },
+        { id: "q3", text: "Lots of people enjoy eating these. They're often round and brown and taste very good." },
+        { id: "q4", text: "If your hands get dirty, you use this with some water to clean them." },
+        { id: "q5", text: "This is usually made of metal or plastic and you can use it when your hair is untidy." },
+        { id: "q6", text: "This lives under the water in the sea and has eight arms." },
+        { id: "q7", text: "When you are walking outside at night this is a good thing to have in your hand because it helps you to see." },
+        { id: "q8", text: "These animals can fly. They sometimes live in caves." },
+        { id: "q9", text: "It is a good idea to go and see these people when you are ill because they can help you to get better." },
+        { id: "q10", text: "These are usually round and we put food on them when we have meals." }
+      ];
+
+      let bankHtml = words.map(w => {
+        const isUsed = Object.values(userAnswers.p1).includes(w);
+        const isSel = selectedWordP1 === w;
+        return `<button class="word-pill ${isUsed ? 'used' : ''} ${isSel ? 'selected' : ''}" onclick="pickWordP1('${w}')">${w}</button>`;
+      }).join('');
+
+      let listHtml = questions.map((q, idx) => {
+        const val = userAnswers.p1[q.id] || "Choose word";
+        const isFilled = val !== "Choose word";
+        return `
+          <div class="qa-row">
+            <div class="qa-text"><b>${idx + 1}.</b> ${q.text}</div>
+            <div class="interactive-line-slot ${isFilled ? 'filled' : ''}" onclick="placeWordP1('${q.id}')">${val}</div>
+          </div>
+        `;
+      }).join('');
+
+      mount.innerHTML = `
+        <div class="part-banner">
+          <h2 class="part-title"><span>📚</span> Part 1 — Definitions & Vocabulary</h2>
+        </div>
+        <div class="instructions-box">
+          Look and read. Choose the correct words and put them on the lines. Tap a word above to select it, then tap the line next to its definition!
+        </div>
+        <div class="pill-bank">${bankHtml}</div>
+        <div class="reading-content-box">
+          <div class="qa-row" style="background:#f8fbff; border-radius:14px; padding:12px 18px; margin-bottom:12px;">
+            <div class="qa-text"><b>Example:</b> These people go to work at an airport and fly high up in the sky.</div>
+            <div class="interactive-line-slot example-slot">pilots</div>
+          </div>
+          ${listHtml}
+        </div>
+        <div class="bottom-bar">
+          <div></div>
+          <button class="btn-act btn-next" onclick="nextPart(2)">Continue to Part 2 ➔</button>
+        </div>
+      `;
+    }
+
+    function pickWordP1(w) {
+      if (Object.values(userAnswers.p1).includes(w)) return;
+      selectedWordP1 = (selectedWordP1 === w) ? null : w;
+      renderPart1(document.getElementById('examMount'));
+    }
+
+    function placeWordP1(qId) {
+      if (!selectedWordP1) {
+        if (userAnswers.p1[qId]) {
+          userAnswers.p1[qId] = "";
+          renderPart1(document.getElementById('examMount'));
+        }
+        return;
+      }
+      userAnswers.p1[qId] = selectedWordP1;
+      selectedWordP1 = null;
+      renderPart1(document.getElementById('examMount'));
+    }
+
+    // ==========================================
+    // PART 2: PICTURE VERIFICATION (7 Questions)
+    // ==========================================
+    function renderPart2(mount) {
+      const questions = [
+        { id: "q1", text: "A person with a curly beard is playing the drums." },
+        { id: "q2", text: "The two boys who are holding guitars are wearing scarves." },
+        { id: "q3", text: "A girl who's sitting down is waving with her right hand." },
+        { id: "q4", text: "All the lights in the theatre are the same colour." },
+        { id: "q5", text: "You can see a towel and some drinks on a small square table." },
+        { id: "q6", text: "The man that's taking a photo has got a striped T-shirt." },
+        { id: "q7", text: "Behind the people who are singing there is a picture of a castle with a moon in the sky." }
+      ];
+
+      let listHtml = questions.map((q, idx) => {
+        const val = userAnswers.p2[q.id];
+        return `
+          <div class="qa-row">
+            <div class="qa-text"><b>${idx + 1}.</b> ${q.text}</div>
+            <div class="toggle-btn-group">
+              <button class="toggle-btn ${val === 'yes' ? 'sel-yes' : ''}" onclick="setP2Answer('${q.id}', 'yes')">yes</button>
+              <button class="toggle-btn ${val === 'no' ? 'sel-no' : ''}" onclick="setP2Answer('${q.id}', 'no')">no</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      mount.innerHTML = `
+        <div class="part-banner">
+          <h2 class="part-title"><span>🎭</span> Part 2 — Look and read: yes or no</h2>
+        </div>
+        <div class="instructions-box">
+          Look and read carefully. Choose <b>yes</b> or <b>no</b> for each sentence according to the scene.
+        </div>
+        <div class="reference-stage">
+          <img src="mock03-part2-scene.jpg" alt="Concert Stage Scene" onerror="tryNextExtension(this, 'mock03-part2-scene', 1)">
+        </div>
+        <div class="reading-content-box">
+          <div class="qa-row" style="background:#f8fbff; border-radius:14px; padding:12px 18px; margin-bottom:8px;">
+            <div class="qa-text"><b>Example 1:</b> The girl with the long blonde hair is wearing trousers.</div>
+            <span style="font-family:'Fredoka'; font-weight:700; color:#15803d; font-size:22px;">yes</span>
+          </div>
+          <div class="qa-row" style="background:#f8fbff; border-radius:14px; padding:12px 18px; margin-bottom:14px;">
+            <div class="qa-text"><b>Example 2:</b> Some of the people who have come to see the singers are dancing.</div>
+            <span style="font-family:'Fredoka'; font-weight:700; color:#b91c1c; font-size:22px;">no</span>
+          </div>
+          ${listHtml}
+        </div>
+        <div class="bottom-bar">
+          <button class="btn-act btn-prev" onclick="prevPart(1)">⬅ Back</button>
+          <button class="btn-act btn-next" onclick="nextPart(3)">Continue to Part 3 ➔</button>
+        </div>
+      `;
+    }
+
+    function setP2Answer(qId, val) {
+      userAnswers.p2[qId] = val;
+      renderPart2(document.getElementById('examMount'));
+    }
+
+    // ==========================================
+    // PART 3: DIALOGUE MATCHING (5 Questions)
+    // ==========================================
+    function renderPart3(mount) {
+      const dialogue = [
+        { id: "q1", text: "So do you work in an office?" },
+        { id: "q2", text: "And do you write all day?" },
+        { id: "q3", text: "And what do you write about?" },
+        { id: "q4", text: "It sounds very difficult!" },
+        { id: "q5", text: "Where can I read the things that you write?" }
+      ];
+
+      const options = [
+        { letter: "A", text: "A tape recorder and a dictionary." },
+        { letter: "B", text: "No, I usually just have to work in the mornings." },
+        { letter: "C", text: "In the newspapers." },
+        { letter: "D", text: "About three weeks ago, I think." },
+        { letter: "E", text: "Oh, I'm a journalist and I love my work. (Example)" },
+        { letter: "F", text: "Yes, it's the big one in Swan Street." },
+        { letter: "G", text: "Sport and things that happen to people." },
+        { letter: "H", text: "Sometimes it is and sometimes it's easy." }
+      ];
+
+      let lettersOptions = `<option value="">-</option>` + ["A","B","C","D","E","F","G","H"].map(l => `<option value="${l}">${l}</option>`).join('');
+
+      const harryAvatar = "https://images.unsplash.com/photo-1543332164-6e82f355badc?auto=format&fit=crop&w=150&q=80";
+      const katyAvatar = "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80";
+
+      let dialogueHtml = dialogue.map((d) => {
+        const val = userAnswers.p3[d.id] || "";
+        return `
+          <div class="qa-row" style="align-items:flex-start;">
+            <div class="qa-text">
+              <div class="chat-speaker-row">
+                <img src="${harryAvatar}" alt="Harry" class="speaker-avatar">
+                <div>
+                  <div style="color:#0b5cab; font-weight:800; font-size:18px;">Harry</div>
+                  <div style="color:#1e293b;">"${d.text}"</div>
+                </div>
+              </div>
+              <div class="chat-speaker-row" style="margin-left: 20px; margin-top: 10px;">
+                <img src="${katyAvatar}" alt="Katy" class="speaker-avatar">
+                <div>
+                  <div style="color:#d97706; font-weight:800; font-size:18px;">Katy</div>
+                  <div style="color:#64748b;">[Choose response letter A–H]</div>
+                </div>
+              </div>
+            </div>
+            <select class="letter-dropdown" onchange="setP3Answer('${d.id}', this.value)" style="margin-top:16px;">
+              ${lettersOptions.replace(`value="${val}"`, `value="${val}" selected`)}
+            </select>
+          </div>
+        `;
+      }).join('');
+
+      let optionsListHtml = options.map(o => `
+        <div style="padding:10px 14px; background:#ffffff; border-radius:14px; border:2px solid #e2e8f0; font-size:18px; margin-bottom:8px;">
+          <b style="color:var(--bubble-blue);">${o.letter}</b>: ${o.text}
+        </div>
+      `).join('');
+
+      mount.innerHTML = `
+        <div class="part-banner">
+          <h2 class="part-title"><span>📰</span> Part 3 — Conversation: Harry & Katy on the Train</h2>
+        </div>
+        <div class="instructions-box">
+          Harry is asking his mother's friend, Katy, about her work. Read the conversation and choose the best answer (A–H).
+        </div>
+        <div class="reference-stage" style="max-width:640px; margin:0 auto 24px auto;">
+          <img src="https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&w=1200&q=80" alt="People and passengers inside a modern train car" onerror="tryNextExtension(this, 'mock03-part3-scene', 0)">
+        </div>
+        <div style="display:grid; grid-template-columns: 1.15fr 0.85fr; gap:24px;">
+          <div class="reading-content-box">
+            <div class="qa-row" style="background:#f8fbff; border-radius:14px; padding:14px 18px; margin-bottom:12px;">
+              <div class="qa-text">
+                <div class="chat-speaker-row">
+                  <img src="${harryAvatar}" alt="Harry" class="speaker-avatar">
+                  <div>
+                    <div style="color:#0b5cab; font-weight:800; font-size:18px;">Harry</div>
+                    <div style="color:#1e293b;">"What kind of work do you do, Katy?"</div>
+                  </div>
+                </div>
+                <div class="chat-speaker-row" style="margin-left: 20px; margin-top: 10px;">
+                  <img src="${katyAvatar}" alt="Katy" class="speaker-avatar">
+                  <div>
+                    <div style="color:#15803d; font-weight:800; font-size:18px;">Katy (Example)</div>
+                    <div style="color:#15803d; font-weight:700;">E — "Oh, I'm a journalist and I love my work."</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            ${dialogueHtml}
+          </div>
+          <div style="background:#f8fbff; border-radius:30px; border:4px solid var(--card-border); padding:24px; height:fit-content;">
+            <h3 style="font-family:'Fredoka'; color:#0b5cab; margin-bottom:14px; font-size:24px;">Answers Box (A–H)</h3>
+            ${optionsListHtml}
+          </div>
+        </div>
+        <div class="bottom-bar">
+          <button class="btn-act btn-prev" onclick="prevPart(2)">⬅ Back</button>
+          <button class="btn-act btn-next" onclick="nextPart(4)">Continue to Part 4 ➔</button>
+        </div>
+      `;
+    }
+
+    function setP3Answer(qId, val) {
+      userAnswers.p3[qId] = val;
+    }
+
+    // ==========================================
+    // PART 4: STORY CLOZE & TITLE (6 Questions)
+    // ==========================================
+    function renderPart4(mount) {
+      const words = ["exciting", "island", "mountain", "think", "tent", "gold", "afraid", "forget", "top", "unfriendly"];
+      let wordOptionsHtml = `<option value="">choose</option>` + words.map(w => `<option value="${w}">${w}</option>`).join('');
+
+      function getDropdown(qId) {
+        const val = userAnswers.p4[qId] || "";
+        return `
+          <select class="cloze-dropdown" id="p4_${qId}" onchange="userAnswers.p4['${qId}'] = this.value">
+            ${wordOptionsHtml.replace(`value="${val}"`, `value="${val}" selected`)}
+          </select>
+        `;
+      }
+
+      const titles = [
+        "My very best three days",
+        "The man finds the camels",
+        "Our holiday by the sea"
+      ];
+
+      let titleOptionsHtml = titles.map((t, idx) => {
+        const isChecked = userAnswers.p4.q6 === t;
+        return `
+          <label class="title-choice-card ${isChecked ? 'selected' : ''}" id="lbl_title_${idx}">
+            <input type="radio" name="p4_title_choice" value="${t}" ${isChecked ? 'checked' : ''} onchange="pickP4Title('${t}', ${idx})">
+            <span>${t}</span>
+          </label>
+        `;
+      }).join('');
+
+      mount.innerHTML = `
+        <div class="part-banner">
+          <h2 class="part-title"><span>🐪</span> Part 4 — Story & Best Title</h2>
+        </div>
+        <div class="instructions-box">
+          Read the story. Choose a word from the box for each number (1–5). Then choose the best name for the story.
+        </div>
+        <div class="reference-stage" style="max-width:640px; margin:0 auto 24px auto;">
+          <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=1200&q=80" alt="Camels in the desert sand with sunny background" onerror="tryNextExtension(this, 'mock03-part4-scene', 0)">
+        </div>
+        <div class="pill-bank" style="margin-bottom:20px;">
+          ${words.map(w => `<span class="word-pill" style="cursor:default;">${w}</span>`).join('')}
+        </div>
+        <div class="story-reading-box">
+          Last year, I had three very <span style="color:#15803d; font-weight:800; border-bottom:3px solid #15803d; padding:0 6px;">exciting</span> <i>(example)</i> days in a country where the weather is very hot. On the first day, we went to see the pyramids. We tried to climb to the (1) ${getDropdown('q1')} of one, but it was too high and too difficult.<br><br>
+          The next day, we went for a ride on some camels. That was very funny! The camels were very noisy. Mum was (2) ${getDropdown('q2')} of hers but I loved sitting on my camel's back. The man who looked after them was very kind. He took us through the desert to a village where we had dinner inside a big (3) ${getDropdown('q3')}.<br><br>
+          On the third day, we went to a museum and saw some interesting things made of (4) ${getDropdown('q4')}, like very old toys and even some cups and bowls. I will never (5) ${getDropdown('q5')} those three days. They were great.
+        </div>
+        <div class="reading-content-box">
+          <h3 style="font-family:'Fredoka'; color:#0b5cab; font-size:24px; margin-bottom:16px;">(6) Now choose the best name for the story:</h3>
+          <div>${titleOptionsHtml}</div>
+        </div>
+        <div class="bottom-bar">
+          <button class="btn-act btn-prev" onclick="savePart4(); prevPart(3);">⬅ Back</button>
+          <button class="btn-act btn-next" onclick="savePart4(); nextPart(5);">Continue to Part 5 ➔</button>
+        </div>
+      `;
+    }
+
+    function pickP4Title(val, selIdx) {
+      userAnswers.p4.q6 = val;
+      for (let i = 0; i < 3; i++) {
+        const lbl = document.getElementById(`lbl_title_${i}`);
+        if (lbl) {
+          if (i === selIdx) lbl.classList.add('selected');
+          else lbl.classList.remove('selected');
+        }
+      }
+    }
+
+    function savePart4() {
+      for (let i = 1; i <= 5; i++) {
+        const el = document.getElementById(`p4_q${i}`);
+        if (el) userAnswers.p4[`q${i}`] = el.value;
+      }
+    }
+
+    // ==========================================
+    // PART 5: THE MISSING RING (7 Questions)
+    // ==========================================
+    function renderPart5(mount) {
+      const questions = [
+        { id: "q1", before: "1. It was too", after: "in the forest to see the little ring." },
+        { id: "q2", before: "2. The missing ring was made of", after: "." },
+        { id: "q3", before: "3. On Monday morning, Robert's mother still felt", after: "." },
+        { id: "q4", before: "4. After", after: "on Monday, Robert and his mother went to the forest again." },
+        { id: "q5", before: "5. They could hear", after: "in the trees." },
+        { id: "q6", before: "6. In the forest, a", after: "flew in front of Robert and his mother." },
+        { id: "q7", before: "7. The missing ring was on", after: "under the butterfly." }
+      ];
+
+      let listHtml = questions.map(q => {
+        return `
+          <div class="qa-row" style="flex-wrap:wrap; line-height:2;">
+            <div class="qa-text">
+              ${q.before} 
+              <input type="text" class="input-reading" id="p5_${q.id}" value="${userAnswers.p5[q.id]}" style="width:230px;"> 
+              ${q.after}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      mount.innerHTML = `
+        <div class="part-banner">
+          <h2 class="part-title"><span>💍</span> Part 5 — The Missing Ring</h2>
+        </div>
+        <div class="instructions-box">
+          Look at the picture and read the story. Write some words to complete the sentences about the story. You can use <b>1, 2, 3 or 4 words</b>.
+        </div>
+        <div class="reference-stage" style="max-width:620px; margin:0 auto 24px auto;">
+          <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80" alt="Mother and son walking in green leafy forest" onerror="tryNextExtension(this, 'mock03-part5-scene', 0)">
+        </div>
+        <div class="story-reading-box">
+          <h3 style="font-family:'Fredoka'; color:#0b5cab; text-align:center; margin-bottom:18px; font-size:28px;">The missing ring</h3>
+          Robert's mother was very sad. On Saturday, she lost her favourite ring when the family went for a walk in the forest. Robert's dad went back on Sunday morning to try to find it. He looked everywhere but he couldn't see it because the ring was very little and it was dark under the big trees.<br><br>
+          "I'll buy you another silver ring just like the one you lost," he said to Robert's mum that evening. "But I loved that one!" she answered.<br><br>
+          On Monday morning she was still unhappy so Robert said, "Let's go for another walk after school. Perhaps we will find your ring if we look again very carefully." "Good idea, Robert," she answered.<br><br>
+          So later that afternoon, they drove back to the forest. They enjoyed walking there. They kicked the leaves with their feet and listened to all the birds in the trees.<br><br>
+          Suddenly a lovely red, spotted butterfly flew out of the trees and down on to the ground in front of them. "Look at that!" Robert said. When Robert's mother looked through her camera to take a picture, she saw something on the small leaf which was under the butterfly. It was her missing ring!<br><br>
+          "I can't believe it!" she said. "A butterfly has shown us where I dropped my ring!" It was a very good end to the day.
+        </div>
+        <div class="reading-content-box">
+          <div style="background:#f8fbff; border-radius:14px; padding:14px; margin-bottom:14px; font-size:19px; line-height:1.6;">
+            <b>Examples:</b><br>
+            When Robert and his parents went for a walk, his mother lost a <span style="text-decoration:underline; color:#0b5cab; font-weight:700;">ring</span>.<br>
+            Robert's father tried <span style="text-decoration:underline; color:#0b5cab; font-weight:700;">to find</span> the ring the next morning.
+          </div>
+          ${listHtml}
+        </div>
+        <div class="bottom-bar">
+          <button class="btn-act btn-prev" onclick="savePart5(); prevPart(4);">⬅ Back</button>
+          <button class="btn-act btn-next" onclick="savePart5(); nextPart(6);">Continue to Part 6 ➔</button>
+        </div>
+      `;
+    }
+
+    function savePart5() {
+      for (let i = 1; i <= 7; i++) {
+        const el = document.getElementById(`p5_q${i}`);
+        if (el) userAnswers.p5[`q${i}`] = el.value.trim();
+      }
+    }
+
+    // ==========================================
+    // PART 6: WHALES (CLOZE TEXT 10 Questions)
+    // ==========================================
+    function renderPart6(mount) {
+      const options = {
+        q1: ["once", "ago", "then"],
+        q2: ["what", "that", "who"],
+        q3: ["Since", "Suddenly", "Soon"],
+        q4: ["weren't", "haven't", "can't"],
+        q5: ["from", "for", "of"],
+        q6: ["any", "all", "every"],
+        q7: ["move", "moves", "moving"],
+        q8: ["sings", "sing", "sung"],
+        q9: ["No", "Nothing", "Not"],
+        q10: ["at", "on", "in"]
+      };
+
+      function getDropdownP6(qId) {
+        const val = userAnswers.p6[qId] || "";
+        let opts = `<option value="">choose</option>` + options[qId].map(o => `<option value="${o}">${o}</option>`).join('');
+        return `
+          <select class="cloze-dropdown" id="p6_${qId}" onchange="userAnswers.p6['${qId}'] = this.value">
+            ${opts.replace(`value="${val}"`, `value="${val}" selected`)}
+          </select>
+        `;
+      }
+
+      const whalesSvg = `
+        <svg viewBox="0 0 800 360" width="100%" height="100%" style="display:block; border-radius:24px; background:linear-gradient(180deg, #0284c7 0%, #0369a1 40%, #0c4a6e 85%, #082f49 100%);">
+          <path d="M0 40 Q200 80 400 30 T800 50 L800 0 L0 0 Z" fill="#38bdf8" opacity="0.3"/>
+          <path d="M0 90 Q220 130 420 80 T800 100 L800 0 L0 0 Z" fill="#7dd3fc" opacity="0.15"/>
+          
+          <g transform="translate(420, 150) scale(1.1)">
+            <path d="M-240 10 C-180 -55 80 -45 220 0 C150 45 40 50 -100 40 C-180 35 -215 25 -240 10 Z" fill="#1e3a8a"/>
+            <path d="M-100 40 C-20 42 70 34 160 12 C100 38 10 46 -100 40 Z" fill="#93c5fd" opacity="0.6"/>
+            <polygon points="-240,10 -285,-25 -270,10 -285,45" fill="#1e3a8a"/>
+            <path d="M-10 15 L25 55 L5 50 L-20 18 Z" fill="#172554"/>
+            <circle cx="165" cy="-2" r="3" fill="#ffffff"/>
+            <circle cx="166" cy="-2" r="1.8" fill="#020617"/>
+            <path d="M120 -35 Q130 -75 110 -90 Q145 -70 135 -35 Z" fill="#e0f2fe" opacity="0.8"/>
+            <path d="M125 -35 Q145 -70 165 -85 Q145 -65 130 -35 Z" fill="#e0f2fe" opacity="0.7"/>
+          </g>
+
+          <g transform="translate(190, 245) scale(0.68)">
+            <path d="M-180 5 C-120 -40 60 -35 170 0 C110 32 30 36 -80 28 C-140 24 -165 16 -180 5 Z" fill="#0284c7"/>
+            <polygon points="-180,5 -220,-20 -205,5 -220,30" fill="#0284c7"/>
+            <path d="M-10 10 L20 40 L5 36 L-15 12 Z" fill="#0369a1"/>
+            <circle cx="125" cy="-2" r="2.5" fill="#ffffff"/>
+            <circle cx="126" cy="-2" r="1.5" fill="#082f49"/>
+          </g>
+
+          <g transform="translate(630, 260) scale(0.55)">
+            <path d="M-160 5 C-100 -35 40 -30 140 0 C90 28 20 32 -70 24 C-120 20 -145 14 -160 5 Z" fill="#0f172a"/>
+            <path d="M-40 10 C0 14 50 10 100 2 C60 22 10 26 -40 10 Z" fill="#ffffff"/>
+            <ellipse cx="90" cy="-8" rx="14" ry="6" fill="#ffffff" transform="rotate(-10 90 -8)"/>
+            <polygon points="-15,-22 5,-58 10,-20" fill="#0f172a"/>
+            <polygon points="-160,5 -195,-18 -180,5 -195,28" fill="#0f172a"/>
+          </g>
+        </svg>
+      `;
+
+      mount.innerHTML = `
+        <div class="part-banner">
+          <h2 class="part-title"><span>🐋</span> Part 6 — Whales (Grammar Cloze)</h2>
+        </div>
+        <div class="instructions-box">
+          Read the text. Choose the right words and write them on the lines (1–10).
+        </div>
+        <div class="reference-stage" style="max-width:680px; margin:0 auto 24px auto; border-radius:26px; border:4px solid #0284c7; box-shadow:0 12px 28px rgba(2, 132, 199, 0.25);">
+          ${whalesSvg}
+        </div>
+        <div class="story-reading-box">
+          <h3 style="font-family:'Fredoka'; color:#0b5cab; text-align:center; margin-bottom:18px; font-size:28px;">Whales</h3>
+          Most whales today <span style="text-decoration:underline; color:#15803d; font-weight:700;">are</span> <i>(example)</i> grey, blue or white. But many, many thousands of years (1) ${getDropdownP6('q1')}, whales looked very different from the whales (2) ${getDropdownP6('q2')} we can see today. Those whales could walk!<br><br>
+          (3) ${getDropdownP6('q3')} then, they have grown bigger. They have also lost their legs and they (4) ${getDropdownP6('q4')} live out of water now. But whales are very different from fish because they need air.<br><br>
+          There are two kinds (5) ${getDropdownP6('q5')} whales — whales that have teeth and whales that don't have teeth, but (6) ${getDropdownP6('q6')} whales can swim very fast. A whale (7) ${getDropdownP6('q7')} its tail up and down to push its body through the sea and some love jumping out of the water too.<br><br>
+          Whales sometimes also (8) ${getDropdownP6('q8')}. Their songs are very strange and very loud. (9) ${getDropdownP6('q9')} other animal is noisier than a whale!<br><br>
+          Whales are also the largest and longest animals (10) ${getDropdownP6('q10')} the world.
+        </div>
+        <div class="bottom-bar">
+          <button class="btn-act btn-prev" onclick="savePart6(); prevPart(5);">⬅ Back</button>
+          <button class="btn-act btn-next" onclick="savePart6(); nextPart(7);">Continue to Part 7 ➔</button>
+        </div>
+      `;
+    }
+
+    function savePart6() {
+      for (let i = 1; i <= 10; i++) {
+        const el = document.getElementById(`p6_q${i}`);
+        if (el) userAnswers.p6[`q${i}`] = el.value;
+      }
+    }
+
+    // ==========================================
+    // PART 7: OPEN CLOZE DIARY (5 Questions)
+    // ==========================================
+    function renderPart7(mount) {
+      mount.innerHTML = `
+        <div class="part-banner">
+          <h2 class="part-title"><span>⛸️</span> Part 7 — Open Cloze: Ice Skating</h2>
+        </div>
+        <div class="instructions-box">
+          Read the diary and write the missing words. <b>Write one word on each line.</b>
+        </div>
+        <div class="reference-stage" style="max-width:540px; margin:0 auto 24px auto;">
+          <img src="https://images.unsplash.com/photo-1517177646641-83fe10f14633?auto=format&fit=crop&w=1200&q=80" alt="Children ice skating together on an ice rink" onerror="tryNextExtension(this, 'mock03-part7-scene', 0)">
+        </div>
+        <div class="story-reading-box" style="font-family:'Quicksand',sans-serif; border-left:14px solid var(--bubble-blue); max-width:880px; margin:0 auto;">
+          <h3 style="font-family:'Fredoka'; color:#0b5cab; font-size:26px; margin-bottom:14px;">Friday</h3>
+          We went ice skating in town today. I <span style="text-decoration:underline; font-weight:800; color:#15803d;">have</span> <i>(example)</i> never done that before. I enjoyed it but I (1) <input type="text" class="input-reading" id="p7_q1" value="${userAnswers.p7.q1}" style="width:130px;"> over lots of times! There was music so we tried to dance (2) <input type="text" class="input-reading" id="p7_q2" value="${userAnswers.p7.q2}" style="width:130px;"> the ice too. It was excellent.<br><br>
+          I wore my new blue (3) <input type="text" class="input-reading" id="p7_q3" value="${userAnswers.p7.q3}" style="width:130px;"> on my feet. They're made of wool. Some of my friends (4) <input type="text" class="input-reading" id="p7_q4" value="${userAnswers.p7.q4}" style="width:130px;"> school came with us. At the end of the day, we all bought fish and chips because we (5) <input type="text" class="input-reading" id="p7_q5" value="${userAnswers.p7.q5}" style="width:130px;"> very hungry. Then we went home on the bus.
+        </div>
+        <div class="bottom-bar">
+          <button class="btn-act btn-prev" onclick="savePart7(); prevPart(6);">⬅ Back</button>
+          <button class="btn-act btn-next" onclick="savePart7(); finishExam();">Finish Exam ➔</button>
+        </div>
+      `;
+    }
+
+    function savePart7() {
+      for (let i = 1; i <= 5; i++) {
+        const el = document.getElementById(`p7_q${i}`);
+        if (el) userAnswers.p7[`q${i}`] = el.value.trim();
+      }
+    }
+
+    // ==========================================
+    // SCORE CALCULATION & DETAILED FEEDBACK
+    // ==========================================
+    function finishExam() {
+      savePart7();
+      currentPart = 8;
+      renderScreen();
+    }
+
+    function renderResults(mount) {
+      clearInterval(timerInterval);
+
+      let totalScore = 0;
+      let fb = { p1: [], p2: [], p3: [], p4: [], p5: [], p6: [], p7: [] };
+
+      // Part 1 (10 marks)
+      for (let k in answerKey.p1) {
+        const u = cleanInput(userAnswers.p1[k]);
+        const isOk = answerKey.p1[k].includes(u);
+        if (isOk) totalScore++;
+        fb.p1.push({ q: k.toUpperCase(), user: userAnswers.p1[k] || "(empty)", correct: answerKey.p1[k][0], ok: isOk });
+      }
+
+      // Part 2 (7 marks)
+      for (let k in answerKey.p2) {
+        const u = (userAnswers.p2[k] || "").toLowerCase();
+        const isOk = u === answerKey.p2[k];
+        if (isOk) totalScore++;
+        fb.p2.push({ q: k.toUpperCase(), user: userAnswers.p2[k] || "(empty)", correct: answerKey.p2[k], ok: isOk });
+      }
+
+      // Part 3 (5 marks)
+      for (let k in answerKey.p3) {
+        const u = (userAnswers.p3[k] || "").toUpperCase();
+        const isOk = u === answerKey.p3[k];
+        if (isOk) totalScore++;
+        fb.p3.push({ q: k.toUpperCase(), user: userAnswers.p3[k] || "(empty)", correct: answerKey.p3[k], ok: isOk });
+      }
+
+      // Part 4 (6 marks: 5 cloze + 1 title)
+      for (let k of ["q1","q2","q3","q4","q5"]) {
+        const u = cleanInput(userAnswers.p4[k]);
+        const isOk = answerKey.p4[k].includes(u);
+        if (isOk) totalScore++;
+        fb.p4.push({ q: k.toUpperCase(), user: userAnswers.p4[k] || "(empty)", correct: answerKey.p4[k][0], ok: isOk });
+      }
+      const titleOk = userAnswers.p4.q6 === answerKey.p4.q6;
+      if (titleOk) totalScore++;
+      fb.p4.push({ q: "Q6 (TITLE)", user: userAnswers.p4.q6 || "(empty)", correct: answerKey.p4.q6, ok: titleOk });
+
+      // Part 5 (7 marks)
+      for (let k in answerKey.p5) {
+        const u = cleanInput(userAnswers.p5[k]);
+        const isOk = answerKey.p5[k].some(ans => cleanInput(ans) === u);
+        if (isOk) totalScore++;
+        fb.p5.push({ q: k.toUpperCase(), user: userAnswers.p5[k] || "(empty)", correct: answerKey.p5[k][0], ok: isOk });
+      }
+
+      // Part 6 (10 marks)
+      for (let k in answerKey.p6) {
+        const u = cleanInput(userAnswers.p6[k]);
+        const isOk = answerKey.p6[k];
+        if (u === isOk) totalScore++;
+        fb.p6.push({ q: k.toUpperCase(), user: userAnswers.p6[k] || "(empty)", correct: answerKey.p6[k], ok: u === isOk });
+      }
+
+      // Part 7 (5 marks)
+      for (let k in answerKey.p7) {
+        const u = cleanInput(userAnswers.p7[k]);
+        const isOk = answerKey.p7[k].includes(u);
+        if (isOk) totalScore++;
+        fb.p7.push({ q: k.toUpperCase(), user: userAnswers.p7[k] || "(empty)", correct: answerKey.p7[k].join(' / '), ok: isOk });
+      }
+
+      let shields = 1;
+      if (totalScore >= 40) shields = 5;
+      else if (totalScore >= 32) shields = 4;
+      else if (totalScore >= 24) shields = 3;
+      else if (totalScore >= 16) shields = 2;
+
+      function renderFbSection(title, list) {
+        return `
+          <div class="feedback-part-title">${title}</div>
+          ${list.map(item => `
+            <div class="feedback-item-row">
+              <span class="fb-tag ${item.ok ? 'fb-correct' : 'fb-wrong'}">${item.ok ? 'CORRECT' : 'REVIEW'}</span>
+              <div>
+                <b>${item.q}:</b> Your answer: <i>"${item.user}"</i> 
+                ${!item.ok ? `➔ Correct: <b style="color:#0b5cab;">${item.correct}</b>` : ''}
+              </div>
+            </div>
+          `).join('')}
+        `;
+      }
+
+      mount.innerHTML = `
+        <div style="text-align:center; margin-bottom:30px;">
+          <h2 style="font-family:'Fredoka'; font-size:42px; color:#0b5cab;">A2 Flyers Mock Test 3 Completed! 🎉</h2>
+          <p style="color:var(--text-sub); font-size:22px; font-weight:700; margin-top:8px;">Reading & Writing Component</p>
+          <div style="font-size:44px; margin:20px 0;">
+            ${"🛡️".repeat(shields)} ${"⚪".repeat(5 - shields)}
+          </div>
+          <div style="font-family:'Fredoka'; font-size:32px; color:#15803d;">
+            Score: ${totalScore} / 44 (${Math.round((totalScore/44)*100)}%) • ${shields} Shields
+          </div>
+        </div>
+
+        <div class="feedback-panel-card">
+          <h3 style="font-family:'Fredoka'; color:#0b5cab; font-size:28px; margin-bottom:16px;">Detailed Pedagogical Feedback</h3>
+          ${renderFbSection("Part 1 — Definitions & Vocabulary", fb.p1)}
+          ${renderFbSection("Part 2 — Picture Verification (yes / no)", fb.p2)}
+          ${renderFbSection("Part 3 — Dialogue Matching (A–H)", fb.p3)}
+          ${renderFbSection("Part 4 — Story Cloze & Title", fb.p4)}
+          ${renderFbSection("Part 5 — The Missing Ring", fb.p5)}
+          ${renderFbSection("Part 6 — Whales (Grammar Cloze)", fb.p6)}
+          ${renderFbSection("Part 7 — Open Cloze: Ice Skating", fb.p7)}
+        </div>
+
+        <div class="bottom-bar" style="justify-content:center; gap:20px;">
+          <button class="btn-act btn-prev" onclick="location.reload()">🔄 Try Mock Again</button>
+          <a href="index.html" class="btn-act btn-finish-all">Complete & Return to Map 🗺️</a>
+        </div>
+      `;
+    }
+
+    renderScreen();
+  </script>
+</body>
+</html>
