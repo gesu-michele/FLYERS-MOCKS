@@ -153,7 +153,7 @@
       align-items: center;
       gap: 8px;
       background: #fff3cc;
-      border: 3px solid #ffcc00;
+      border: 3.5px solid #ffcc00;
       padding: 6px 16px;
       border-radius: 999px;
       font-family: 'Fredoka', cursive;
@@ -572,7 +572,7 @@
       color: #ff5722;
     }
 
-    /* MAPA CON CUADRÍCULA DE 2 SECCIONES */
+    /* MAPA CON TARJETAS CLARAS Y DIRECTAS */
     .progress-summary-card {
       background: #ffffff;
       border: 4px solid var(--card-border);
@@ -589,29 +589,18 @@
 
     .mock-block {
       background: #f8fbff;
-      border: 3px solid #d8ecff;
-      border-radius: 22px;
-      padding: 18px 20px;
-      margin-bottom: 16px;
+      border: 3.5px solid #ffaa00;
+      border-radius: 24px;
+      padding: 20px 22px;
+      margin-bottom: 18px;
       transition: all 0.2s ease;
+      box-shadow: 0 6px 14px rgba(255, 170, 0, 0.12);
     }
 
-    .mock-block.unlocked:hover {
+    .mock-block:hover {
       border-color: #00c4cc;
       transform: translateY(-2px);
-      box-shadow: 0 8px 16px rgba(0, 196, 204, 0.15);
-    }
-
-    .mock-block.current {
-      border: 3px solid #ffaa00;
-      background: #fffdf2;
-      box-shadow: 0 8px 20px rgba(255, 170, 0, 0.18);
-    }
-
-    .mock-block.locked {
-      opacity: 0.55;
-      background: #f1f5f9;
-      border-color: #cbd5e1;
+      box-shadow: 0 10px 20px rgba(0, 196, 204, 0.18);
     }
 
     .mock-header-row {
@@ -629,7 +618,7 @@
       color: #0b5cab;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
 
     .mock-score-pill {
@@ -650,7 +639,6 @@
     }
 
     .badge-ready { background: #d7fae3; color: #0d8a44; border: 2px solid #8fe7ae; }
-    .badge-locked { background: #e2e8f0; color: #64748b; border: 2px solid #cbd5e1; }
     .badge-done { background: #ffdfec; color: #d61f69; border: 2px solid #f9a8d4; }
 
     /* GRID ADAPTADO A 2 SECCIONES */
@@ -677,19 +665,11 @@
       box-shadow: 0 4px 0 var(--card-border);
     }
 
-    .section-chip-btn:hover:not(.btn-disabled) {
+    .section-chip-btn:hover {
       border-color: #2575fc;
       transform: translateY(-2px);
       box-shadow: 0 6px 0 #2575fc;
       background: #f0f7ff;
-    }
-
-    .section-chip-btn.btn-disabled {
-      cursor: not-allowed;
-      opacity: 0.5;
-      background: #edf2f7;
-      border-color: #cbd5e1;
-      box-shadow: none;
     }
 
     .section-chip-btn span.chip-tag {
@@ -823,11 +803,11 @@
     let mocksStatus = {};
 
     function initData() {
+      // Todos los 30 mocks quedan desbloqueados de forma libre
       for (let m = 1; m <= 30; m++) {
-        // Mocks 1, 2 y 3 quedan listos y desbloqueados
         mocksStatus[m] = { 
           completed: false, 
-          unlocked: m <= 3,
+          unlocked: true,
           listeningScore: null,
           readingWritingScore: null
         };
@@ -843,7 +823,16 @@
       const rawMocks = localStorage.getItem(MOCK_COMPLETION_KEY);
       if (rawMocks) {
         try {
-          mocksStatus = { ...mocksStatus, ...JSON.parse(rawMocks) };
+          const loaded = JSON.parse(rawMocks);
+          for (let m = 1; m <= 30; m++) {
+            if (loaded[m]) {
+              mocksStatus[m].completed = loaded[m].completed || false;
+              mocksStatus[m].listeningScore = loaded[m].listeningScore || null;
+              mocksStatus[m].readingWritingScore = loaded[m].readingWritingScore || null;
+            }
+            // Asegura que siempre permanezca desbloqueado
+            mocksStatus[m].unlocked = true;
+          }
         } catch(e) {}
       }
 
@@ -852,12 +841,6 @@
         const lScore = localStorage.getItem(`flyers_listening_score_${padded}`);
         if (lScore !== null) {
           mocksStatus[m].listeningScore = lScore;
-        }
-        
-        if (m <= 3) {
-          mocksStatus[m].unlocked = true;
-        } else if (mocksStatus[m - 1] && mocksStatus[m - 1].completed) {
-          mocksStatus[m].unlocked = true;
         }
       }
     }
@@ -917,7 +900,7 @@
                       Ready for the challenge? Complete the mission: <strong>🎧 Listening ➔ 📖 Reading & Writing</strong> and win all your Cambridge Shields!
                     </p>
                     <p class="welcome-es">
-                      ¡Aprende jugando! Practica las secciones oficiales de Cambridge Flyers y supera cada nivel.
+                      ¡Aprende jugando! Practica las secciones oficiales de Cambridge Flyers y supera cada nivel a tu propio ritmo.
                     </p>
                   </div>
 
@@ -999,7 +982,7 @@
                 </div>
                 <div class="companion-text">
                   ${userState.name 
-                    ? `"Great to see you again, <strong>${userState.name}</strong>! Are you ready to win your shields in Listening and Reading & Writing?"`
+                    ? `"Great to see you again, <strong>${userState.name}</strong>! Choose any mock you like from the mission map!"`
                     : `"Hi! I'm your exam buddy! Enter your name and let's start the adventure together!"`}
                 </div>
               </div>
@@ -1038,25 +1021,18 @@
 
       for (let i = 1; i <= 30; i++) {
         const padded = String(i).padStart(2, '0');
-        const isUnlocked = mocksStatus[i] && mocksStatus[i].unlocked;
         const isCompleted = mocksStatus[i] && mocksStatus[i].completed;
-        const isCurrent = isUnlocked && !isCompleted;
         
         const scoreBadge = mocksStatus[i].listeningScore !== null 
           ? `<span class="mock-score-pill">🎧 ${mocksStatus[i].listeningScore}/25 pts</span>` 
           : '';
 
-        let statusBadge = '';
-        if (isCompleted) {
-          statusBadge = `<span class="mock-badge-status badge-done">🏆 COMPLETED</span>`;
-        } else if (isUnlocked) {
-          statusBadge = `<span class="mock-badge-status badge-ready">🌟 UNLOCKED</span>`;
-        } else {
-          statusBadge = `<span class="mock-badge-status badge-locked">🔒 LOCKED</span>`;
-        }
+        let statusBadge = isCompleted
+          ? `<span class="mock-badge-status badge-done">🏆 COMPLETED</span>`
+          : `<span class="mock-badge-status badge-ready">🌟 UNLOCKED</span>`;
 
         mocksHtml += `
-          <div class="mock-block ${isUnlocked ? 'unlocked' : 'locked'} ${isCurrent ? 'current' : ''}">
+          <div class="mock-block">
             <div class="mock-header-row">
               <div class="mock-title">
                 <span>🎯 Mission N° ${padded}</span>
@@ -1067,8 +1043,7 @@
             
             <div class="mock-sections-grid">
               <!-- SECCIÓN 1: LISTENING -->
-              <a href="${isUnlocked ? `listening-mock${padded}.html` : '#'}" 
-                 class="section-chip-btn ${!isUnlocked ? 'btn-disabled' : ''}">
+              <a href="listening-mock${padded}.html" class="section-chip-btn">
                 <div>
                   <div>🎧 1. Listening Test</div>
                   <span class="chip-tag">5 Parts • Audio & Colors</span>
@@ -1077,8 +1052,7 @@
               </a>
 
               <!-- SECCIÓN 2: READING & WRITING -->
-              <a href="${isUnlocked ? `reading-mock${padded}.html` : '#'}" 
-                 class="section-chip-btn ${!isUnlocked ? 'btn-disabled' : ''}">
+              <a href="reading-mock${padded}.html" class="section-chip-btn">
                 <div>
                   <div>📖 2. Reading & Writing</div>
                   <span class="chip-tag">7 Parts • Words & Stories</span>
@@ -1100,7 +1074,7 @@
               <div>
                 <h2 class="center-title" style="margin-bottom: 4px;">Pick your Challenge!</h2>
                 <p style="font-size:17px; color:#1e293b; font-weight:700;">
-                  Hero: <strong style="color:#ff5722;">${userState.name}</strong> • Choose an unlocked mock test below:
+                  Hero: <strong style="color:#ff5722;">${userState.name || 'Student'}</strong> • Select any mock test below:
                 </p>
               </div>
             </div>
