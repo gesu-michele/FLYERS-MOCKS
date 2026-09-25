@@ -1,0 +1,1928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A2 Flyers Mock 04 - Listening | Dr. Jesús Miguel Lima E.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-sky: #dcf2ff;
+      --bubble-cyan: #00c4cc;
+      --bubble-blue: #0284c7;
+      --bubble-yellow: #ffb800;
+      --bubble-orange: #ff5722;
+      --bubble-green: #00d084;
+      --bubble-purple: #7928ca;
+      --text-dark: #121829;
+      --text-sub: #334155;
+      --white: #ffffff;
+      --card-border: #a5d8ff;
+      --correct: #00d084;
+      --wrong: #ff5722;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(180deg, #b3e0ff 0%, #dbf0ff 40%, #fff2d6 100%);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+      font-size: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .glowing-aura {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+      z-index: 0;
+      animation: pulseGlow 7s ease-in-out infinite alternate;
+    }
+    .aura-cyan { width: 550px; height: 550px; background: rgba(0, 196, 204, 0.4); top: -120px; left: -100px; }
+    .aura-yellow { width: 620px; height: 620px; background: rgba(255, 184, 0, 0.35); bottom: -120px; right: -100px; animation-delay: -3.5s; }
+    .aura-purple { width: 480px; height: 480px; background: rgba(121, 40, 202, 0.28); top: 35%; right: 25%; animation-delay: -5s; }
+
+    @keyframes pulseGlow {
+      0% { transform: scale(1) translate(0, 0); opacity: 0.65; }
+      50% { transform: scale(1.22) translate(35px, 25px); opacity: 1; filter: blur(120px); }
+      100% { transform: scale(0.92) translate(-25px, -18px); opacity: 0.65; }
+    }
+
+    .top-nav {
+      height: 86px;
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom: 4px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      box-shadow: 0 10px 24px rgba(37, 117, 252, 0.12);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+
+    .btn-back-home {
+      background: #ffffff;
+      border: 3.5px solid #cbd5e1;
+      border-radius: 999px;
+      padding: 10px 24px;
+      font-family: 'Fredoka', cursive;
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--text-sub);
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 5px 0 #cbd5e1;
+      transition: all 0.15s ease;
+    }
+    .btn-back-home:hover { transform: translateY(-2px); box-shadow: 0 7px 0 #cbd5e1; }
+
+    .exam-tag {
+      font-family: 'Fredoka', cursive;
+      font-size: 22px;
+      color: #0b5cab;
+      background: #e1f2ff;
+      border: 3px solid #bfe3ff;
+      padding: 10px 26px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .timer-badge {
+      font-family: 'Fredoka', cursive;
+      font-size: 21px;
+      color: #523100;
+      background: #fff3cc;
+      border: 3.5px solid #ffcc00;
+      padding: 8px 24px;
+      border-radius: 999px;
+      box-shadow: 0 5px 0 #e6b800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .main-wrap {
+      max-width: 1240px;
+      width: 100%;
+      margin: 30px auto 50px auto;
+      padding: 0 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 1;
+    }
+
+    .exam-card {
+      background: rgba(255, 255, 255, 0.98);
+      border: 5px solid var(--card-border);
+      border-radius: 40px;
+      padding: 42px;
+      box-shadow: 0 18px 40px rgba(37, 117, 252, 0.16);
+      position: relative;
+    }
+
+    .part-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    .part-title {
+      font-family: 'Fredoka', cursive;
+      font-size: 32px;
+      color: #0b5cab;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .drive-audio-wrapper {
+      background: #ffffff;
+      border: 4px solid var(--bubble-cyan);
+      border-radius: 28px;
+      padding: 18px 22px;
+      margin-bottom: 28px;
+      box-shadow: 0 10px 24px rgba(0, 196, 204, 0.16);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .audio-header-status {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: 'Fredoka', cursive;
+      font-size: 19px;
+      color: #0b5cab;
+    }
+
+    .drive-audio-frame-box {
+      width: 100%;
+      height: 220px;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #000000;
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.35);
+    }
+
+    .drive-audio-frame-box iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    .instructions-box {
+      background: #f0f8ff;
+      border-left: 10px solid var(--bubble-cyan);
+      border-radius: 0 24px 24px 0;
+      padding: 20px 28px;
+      font-size: 21px;
+      color: #1e293b;
+      font-weight: 700;
+      margin-bottom: 28px;
+      line-height: 1.55;
+    }
+
+    /* PART 1 */
+    .names-bank {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+
+    .name-pill {
+      font-family: 'Fredoka', cursive;
+      font-size: 22px;
+      background: #ffffff;
+      border: 4px solid var(--bubble-blue);
+      color: var(--bubble-blue);
+      padding: 12px 32px;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 0 6px 0 var(--bubble-blue);
+      transition: all 0.15s ease;
+    }
+
+    .name-pill.selected {
+      background: var(--bubble-orange);
+      border-color: #d83d0f;
+      color: #ffffff;
+      box-shadow: 0 0 26px rgba(255, 87, 34, 0.9), 0 6px 0 #b32a00;
+      transform: scale(1.12);
+    }
+
+    .name-pill.used {
+      background: #e2e8f0;
+      border-color: #cbd5e1;
+      color: #94a3b8;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+
+    .stage-container {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      border-radius: 30px;
+      overflow: hidden;
+      border: 5px solid var(--card-border);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.12);
+      background: #ffffff;
+    }
+
+    .stage-image { width: 100%; height: auto; display: block; }
+
+    /* PINES CORPORALES EN TORSO Y PIERNAS */
+    .drop-pin {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .drop-pin:hover {
+      transform: translate(-50%, -50%) scale(1.22);
+      z-index: 25;
+    }
+
+    .pin-circle-empty {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 3.5px solid #ffffff;
+      background: rgba(2, 132, 199, 0.85);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px;
+      box-shadow: 0 0 16px rgba(2, 132, 199, 0.85), 0 4px 10px rgba(0,0,0,0.3);
+      backdrop-filter: blur(2px);
+    }
+
+    .pin-badge-filled {
+      padding: 7px 18px;
+      border-radius: 999px;
+      border: 3px solid #ffffff;
+      background: var(--bubble-cyan);
+      color: #ffffff;
+      font-family: 'Fredoka', cursive;
+      font-size: 19px;
+      font-weight: 700;
+      box-shadow: 0 0 18px rgba(0, 196, 204, 0.9), 0 4px 10px rgba(0,0,0,0.25);
+      white-space: nowrap;
+    }
+
+    .pin-badge-example {
+      padding: 7px 18px;
+      border-radius: 999px;
+      border: 3px solid #ffffff;
+      background: var(--bubble-green);
+      color: #ffffff;
+      font-family: 'Fredoka', cursive;
+      font-size: 19px;
+      font-weight: 700;
+      cursor: default;
+      box-shadow: 0 0 18px rgba(0, 208, 132, 0.85), 0 4px 10px rgba(0,0,0,0.25);
+      white-space: nowrap;
+    }
+
+    /* PART 2 */
+    .diary-board {
+      background: #ffffff;
+      border: 4px solid var(--card-border);
+      border-radius: 32px;
+      padding: 34px 44px;
+      max-width: 860px;
+      margin: 0 auto;
+      box-shadow: 0 12px 28px rgba(37, 117, 252, 0.08);
+    }
+
+    .diary-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+      padding: 18px 0;
+      border-bottom: 3.5px dashed #e2e8f0;
+      flex-wrap: wrap;
+    }
+
+    .diary-day {
+      font-family: 'Fredoka', cursive;
+      font-size: 24px;
+      color: var(--bubble-blue);
+      width: 220px;
+    }
+
+    .diary-field {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 800;
+      font-size: 21px;
+    }
+
+    .diary-input {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      padding: 12px 22px;
+      border: 3.5px solid var(--card-border);
+      border-radius: 18px;
+      outline: none;
+      width: 280px;
+      color: #0b5cab;
+      background: #f8fbfe;
+      transition: all 0.2s;
+    }
+    .diary-input:focus {
+      border-color: var(--bubble-cyan);
+      background: #ffffff;
+      box-shadow: 0 0 0 6px rgba(0, 196, 204, 0.25);
+    }
+
+    /* PART 3 */
+    .part3-cambridge-container {
+      display: grid;
+      grid-template-columns: 450px 1fr;
+      gap: 30px;
+      align-items: start;
+    }
+
+    .friends-list-column {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .friend-row-card {
+      background: #ffffff;
+      border: 3.5px solid var(--card-border);
+      border-radius: 22px;
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 6px 14px rgba(37, 117, 252, 0.06);
+    }
+
+    .friend-identity {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .art-frame-box {
+      width: 82px;
+      height: 82px;
+      border-radius: 18px;
+      border: 3px solid #cbd5e1;
+      overflow: hidden;
+      background: #f8fafc;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    .art-frame-box svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .friend-name-text {
+      font-family: 'Fredoka', cursive;
+      font-size: 24px;
+      color: #0b5cab;
+    }
+
+    .letter-dropdown-cambridge {
+      width: 64px;
+      height: 64px;
+      border: 3.5px solid var(--text-dark);
+      border-radius: 14px;
+      background: #ffffff;
+      font-family: 'Fredoka', cursive;
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--bubble-orange);
+      text-align: center;
+      outline: none;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #94a3b8;
+    }
+
+    .letter-dropdown-cambridge:focus {
+      border-color: var(--bubble-cyan);
+      box-shadow: 0 0 14px rgba(0, 196, 204, 0.6);
+    }
+
+    .example-box-fixed {
+      width: 64px;
+      height: 64px;
+      border: 3.5px solid #0d8a44;
+      border-radius: 14px;
+      background: #dcfce7;
+      font-family: 'Fredoka', cursive;
+      font-size: 34px;
+      font-weight: 700;
+      color: #0d8a44;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .workplaces-grid-column {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      background: #f8fbff;
+      border: 4px solid var(--card-border);
+      border-radius: 30px;
+      padding: 20px;
+    }
+
+    .workplace-card-item {
+      background: #ffffff;
+      border: 3.5px solid var(--card-border);
+      border-radius: 22px;
+      padding: 12px;
+      text-align: center;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+    }
+
+    .workplace-art-wrap {
+      width: 100%;
+      height: 140px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #ffffff;
+      margin-bottom: 8px;
+      border: 2.5px solid #e2e8f0;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .workplace-art-wrap svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .letter-tag-bold {
+      font-family: 'Fredoka', cursive;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--bubble-blue);
+    }
+
+    /* PART 4 */
+    .part4-question-card {
+      background: #f8fbff;
+      border: 4px solid var(--card-border);
+      border-radius: 30px;
+      padding: 26px;
+      margin-bottom: 28px;
+    }
+
+    .part4-question-card.is-example {
+      border-color: #86efac;
+      background: #f0fdf4;
+    }
+
+    .p4-question-heading {
+      font-family: 'Fredoka', cursive;
+      font-size: 26px;
+      color: #0b5cab;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .p4-visual-ref {
+      margin-bottom: 16px;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 3px solid var(--card-border);
+      background: #ffffff;
+    }
+    .p4-visual-ref img {
+      width: 100%;
+      height: auto;
+      max-height: 270px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .p4-options-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .p4-box-choice {
+      background: #ffffff;
+      border: 3.5px solid #cbd5e1;
+      border-radius: 20px;
+      padding: 14px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: 'Fredoka', cursive;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-dark);
+      box-shadow: 0 5px 0 #cbd5e1;
+    }
+
+    .p4-box-choice:hover {
+      border-color: var(--bubble-cyan);
+      transform: translateY(-3px);
+      box-shadow: 0 7px 0 var(--bubble-cyan);
+    }
+
+    .p4-box-choice.selected {
+      border-color: #0d8a44;
+      background: var(--bubble-green);
+      color: #ffffff;
+      box-shadow: 0 6px 0 #0d8a44;
+      transform: scale(1.04);
+    }
+
+    .p4-box-choice.fixed-example {
+      border-color: #15803d;
+      background: #22c55e;
+      color: #ffffff;
+      cursor: default;
+      box-shadow: none;
+    }
+
+    /* PART 5 */
+    .part5-canvas-stage-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 960px;
+      margin: 0 auto;
+      border-radius: 30px;
+      overflow: hidden;
+      border: 5px solid var(--card-border);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.12);
+      background: #ffffff;
+      touch-action: none;
+    }
+
+    .part5-canvas-stage-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    #drawingCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      cursor: crosshair;
+      z-index: 5;
+    }
+
+    .canvas-tools-panel {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+      background: #ffffff;
+      border: 3.5px solid var(--card-border);
+      border-radius: 30px;
+      padding: 14px 22px;
+      box-shadow: 0 8px 20px rgba(37, 117, 252, 0.08);
+    }
+
+    .canvas-tool-btn {
+      font-family: 'Fredoka', cursive;
+      font-size: 18px;
+      font-weight: 700;
+      padding: 10px 22px;
+      border-radius: 999px;
+      border: 2.5px solid #cbd5e1;
+      background: #f8fafc;
+      color: #334155;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.15s ease;
+      box-shadow: 0 4px 0 #cbd5e1;
+    }
+    .canvas-tool-btn:hover {
+      border-color: var(--bubble-cyan);
+      transform: translateY(-2px);
+    }
+    .canvas-tool-btn.active {
+      background: var(--bubble-blue);
+      border-color: #0369a1;
+      color: #ffffff;
+      box-shadow: 0 4px 0 #075985;
+      transform: scale(1.05);
+    }
+
+    .c-palette-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 3.5px solid white;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+      transition: transform 0.15s ease;
+    }
+    .c-palette-btn:hover { transform: scale(1.2); }
+    .c-palette-btn.active {
+      transform: scale(1.28);
+      border-color: #0f172a;
+      box-shadow: 0 0 16px rgba(0,0,0,0.4);
+    }
+
+    .part5-writing-card {
+      background: #f8fbff;
+      border: 4px solid var(--card-border);
+      border-radius: 28px;
+      padding: 24px 30px;
+      max-width: 960px;
+      margin: 26px auto 0 auto;
+      box-shadow: 0 8px 20px rgba(37, 117, 252, 0.08);
+    }
+
+    .part5-writing-input {
+      font-family: 'Fredoka', cursive;
+      font-size: 24px;
+      font-weight: 700;
+      padding: 12px 24px;
+      border: 3.5px solid var(--bubble-blue);
+      border-radius: 18px;
+      background: #ffffff;
+      color: #0b5cab;
+      outline: none;
+      min-width: 260px;
+      margin-top: 10px;
+    }
+    .part5-writing-input:focus {
+      border-color: var(--bubble-cyan);
+      box-shadow: 0 0 0 6px rgba(0, 196, 204, 0.25);
+    }
+
+    /* FEEDBACK PANEL */
+    .feedback-panel-card {
+      background: #ffffff;
+      border: 3.5px solid var(--card-border);
+      border-radius: 28px;
+      padding: 28px 32px;
+      max-width: 900px;
+      margin: 28px auto 0 auto;
+      text-align: left;
+      box-shadow: 0 10px 24px rgba(37, 117, 252, 0.08);
+    }
+
+    .feedback-part-title {
+      font-family: 'Fredoka', cursive;
+      font-size: 24px;
+      color: #0b5cab;
+      border-bottom: 2.5px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-top: 20px;
+      margin-bottom: 12px;
+    }
+    .feedback-part-title:first-child { margin-top: 0; }
+
+    .feedback-item-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 8px 0;
+      font-size: 18px;
+      line-height: 1.45;
+    }
+
+    .fb-tag {
+      font-family: 'Fredoka', cursive;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+    .fb-correct { background: #dcfce7; color: #15803d; border: 1.5px solid #86efac; }
+    .fb-wrong { background: #fee2e2; color: #b91c1c; border: 1.5px solid #fca5a5; }
+
+    .bottom-bar {
+      margin-top: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+      flex-wrap: wrap;
+    }
+
+    .btn-act {
+      font-family: 'Fredoka', cursive;
+      font-size: 21px;
+      font-weight: 600;
+      padding: 18px 42px;
+      border-radius: 999px;
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-next {
+      background: linear-gradient(180deg, #2fd277 0%, #15b35c 100%);
+      color: #ffffff;
+      box-shadow: 0 7px 0 #0d8a44, 0 12px 24px rgba(21, 179, 92, 0.4);
+    }
+    .btn-next:hover { transform: translateY(-3px); box-shadow: 0 10px 0 #0d8a44; }
+
+    .btn-prev {
+      background: #ffffff;
+      border: 3.5px solid #cbd5e1;
+      color: #64748b;
+      box-shadow: 0 6px 0 #94a3b8;
+    }
+
+    @media (max-width: 980px) {
+      .part3-cambridge-container { grid-template-columns: 1fr; }
+      .workplaces-grid-column { grid-template-columns: repeat(2, 1fr); }
+      .top-nav { padding: 0 20px; }
+      .exam-card { padding: 24px; }
+      .p4-options-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glowing-aura aura-cyan"></div>
+  <div class="glowing-aura aura-yellow"></div>
+  <div class="glowing-aura aura-purple"></div>
+
+  <header class="top-nav">
+    <a href="index.html" class="btn-back-home" onclick="stopAllAudio()">⬅ Exit to Map</a>
+    <div class="exam-tag"><span>🎧</span> Mock 04 • Listening Practice</div>
+    <div class="timer-badge">
+      <span>⏰</span> <span id="timerTxt">45:00</span>
+      <span style="font-size:14px; color:#78350f; font-weight:700;">(Practice Mode)</span>
+    </div>
+  </header>
+
+  <main class="main-wrap">
+    <div class="exam-card" id="examMount">
+      <!-- CABECERA Y AUDIO PERSISTENTE (NUNCA SE REINICIA CON LOS CLICS) -->
+      <div id="partHeaderHost"></div>
+      <div id="persistentAudioHost"></div>
+      <div id="instructionsHost"></div>
+
+      <!-- CONTENIDO INTERACTIVO AISLADO -->
+      <div id="interactiveContentHost"></div>
+
+      <!-- BARRA DE NAVEGACIÓN INFERIOR -->
+      <div id="bottomBarHost"></div>
+    </div>
+  </main>
+
+  <script>
+    let currentPart = 1;
+    let currentActiveAudioPart = 0;
+    let selectedPart1Name = null;
+
+    const userAnswers = {
+      p1: {},
+      p2: { q1: "", q2: "", q3: "", q4: "", q5: "" },
+      p3: { plate: "", mirror: "", horse: "", comb: "", garden: "" },
+      p4: { q1: "", q2: "", q3: "", q4: "", q5: "" },
+      p5: {
+        canvasStrokes: [],
+        word: "",
+        drawingSnapshot: null
+      }
+    };
+
+    // Official Cambridge Answer Key Test 1 (Mock 04)
+    const answerKey = {
+      p1: {
+        dinosaur_chicken: "Michael",
+        girl_green_tights: "Sarah",
+        queen_glass_hand: "Katy",
+        bear_head_removed: "David",
+        girl_pizza_hat: "Helen"
+      },
+      p2: {
+        q1: ["beulah"],
+        q2: ["91", "ninety-one", "ninety one"],
+        q3: ["brother", "her brother"],
+        q4: ["photographer", "a photographer"],
+        q5: ["computer games", "computer game"]
+      },
+      p3: {
+        comb: "D",
+        garden: "B",
+        mirror: "E",
+        horse: "F",
+        plate: "C"
+      },
+      p4: {
+        q1: "A",
+        q2: "B",
+        q3: "C",
+        q4: "B",
+        q5: "B"
+      },
+      p5: {
+        word: ["space"]
+      }
+    };
+
+    const driveIds = {
+      1: "1SQwTYJzM8_tvbvF3pTnc9jP8ykpHJXfc",
+      2: "1PyrwZ8acWnNPwF_sH80IhTanSepK2o9S",
+      3: "13lW3usOSBMbkthC9g-P7hbwF-3RwF8r7",
+      4: "1OO_KHGq_XoOE0-BaJGPaBUuJW5vt4rf9",
+      5: "1WUCN_5BkpB3UJX2kulYsby3XCnyUPHcD"
+    };
+
+    function stopAllAudio() {
+      const audioFrame = document.getElementById('audioPlayerFrame');
+      if (audioFrame) audioFrame.src = "about:blank";
+      currentActiveAudioPart = 0;
+    }
+
+    function ensureDriveAudioMounted(partNum) {
+      const host = document.getElementById('persistentAudioHost');
+      if (currentPart === 6) {
+        host.innerHTML = '';
+        currentActiveAudioPart = 0;
+        return;
+      }
+
+      if (currentActiveAudioPart === partNum) return;
+
+      currentActiveAudioPart = partNum;
+      const fileId = driveIds[partNum];
+      host.innerHTML = `
+        <div class="drive-audio-wrapper">
+          <div class="audio-header-status">
+            <span>🎧 Cambridge Track ${partNum} of 5</span>
+            <span style="font-size:15px; color:#475569;">Audio continuo mientras interactúas</span>
+          </div>
+          <div class="drive-audio-frame-box">
+            <iframe id="audioPlayerFrame" src="https://drive.google.com/file/d/${fileId}/preview" allow="autoplay"></iframe>
+          </div>
+        </div>
+      `;
+    }
+
+    function cleanInput(str) {
+      return (str || "")
+        .toLowerCase()
+        .replace(/[’‘`]/g, "'")
+        .trim();
+    }
+
+    function tryNextExtension(imgEl, baseName, currentIndex = 0) {
+      const exts = ['.jpg', '.png', '.jpeg', '.webp', '.svg'];
+      if (currentIndex < exts.length) {
+        imgEl.onerror = () => tryNextExtension(imgEl, baseName, currentIndex + 1);
+        imgEl.src = baseName + exts[currentIndex];
+      } else {
+        imgEl.style.display = 'none';
+      }
+    }
+
+    // TIMER CON AUTO-CIERRE
+    let secondsLeft = 45 * 60;
+    const timerInterval = setInterval(() => {
+      if (secondsLeft <= 0) {
+        clearInterval(timerInterval);
+        alert("⏰ Practice Time is up! Finishing test and evaluating Cambridge Shields...");
+        finishExam();
+        return;
+      }
+      secondsLeft--;
+      const m = Math.floor(secondsLeft / 60).toString().padStart(2, '0');
+      const s = (secondsLeft % 60).toString().padStart(2, '0');
+      const timerEl = document.getElementById('timerTxt');
+      if (timerEl) timerEl.textContent = `${m}:${s}`;
+    }, 1000);
+
+    function nextPart(step) { currentPart = step; renderScreen(); }
+    function prevPart(step) { currentPart = step; renderScreen(); }
+
+    function renderScreen() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      ensureDriveAudioMounted(currentPart);
+
+      if (currentPart === 1) renderPart1();
+      else if (currentPart === 2) renderPart2();
+      else if (currentPart === 3) renderPart3();
+      else if (currentPart === 4) renderPart4();
+      else if (currentPart === 5) renderPart5();
+      else if (currentPart === 6) renderResults();
+    }
+
+    // ==========================================
+    // PART 1: FIESTA DE DISFRACES (PINES EN TORSO Y PIERNAS)
+    // ==========================================
+    const p1NamesList = ["Helen", "Sarah", "David", "Katy", "Sally", "Michael"];
+
+    const p1SlotsData = [
+      // Ejemplo: Harry (Mago de túnica morada y bastón)
+      { id: "wizard_harry", label: "Harry (Example)", x: 39, y: 50, isExample: true },
+      // 1. Michael: Torso/piernas del dinosaurio comiendo pollo
+      { id: "dinosaur_chicken", label: "Michael", x: 80, y: 64 },
+      // 2. Sarah: Torso/piernas de la chica con mallas verdes
+      { id: "girl_green_tights", label: "Sarah", x: 62, y: 73 },
+      // 3. Katy: Torso/falda de la reina con la copa en la mano
+      { id: "queen_glass_hand", label: "Katy", x: 31, y: 72 },
+      // 4. David: Torso del oso/monstruo que se quitó la cabeza
+      { id: "bear_head_removed", label: "David", x: 64, y: 52 },
+      // 5. Helen: Torso/vestido de la chica con sombrero de pizza
+      { id: "girl_pizza_hat", label: "Helen", x: 27, y: 53 },
+      // Distractores reales de la fiesta:
+      { id: "distractor_clown", label: "Distractor", x: 19, y: 67 }, // Payaso
+      { id: "distractor_queen_plate", label: "Distractor", x: 44, y: 74 }, // Reina con plato
+      { id: "distractor_nurse", label: "Distractor", x: 70, y: 44 }, // Enfermera junto a puerta
+      { id: "distractor_doctor", label: "Distractor", x: 77, y: 46 } // Doctor junto a mesa
+    ];
+
+    function renderPart1() {
+      document.getElementById('partHeaderHost').innerHTML = `
+        <div class="part-banner">
+          <h2 class="part-title"><span>🎧</span> Part 1 — Listen and draw lines</h2>
+        </div>
+      `;
+
+      document.getElementById('instructionsHost').innerHTML = `
+        <div class="instructions-box">
+          1. Tap a name at the top to select it.<br>
+          2. Tap the circular pin <strong>📍</strong> on the person to assign the name! (Harry is the example).
+        </div>
+      `;
+
+      let slotsHtml = p1SlotsData.map(s => {
+        if (s.isExample) {
+          return `<div class="drop-pin" style="left:${s.x}%; top:${s.y}%;"><div class="pin-badge-example">${s.label}</div></div>`;
+        }
+        const assignedName = userAnswers.p1[s.id];
+        const isFilled = Boolean(assignedName);
+        return `
+          <div class="drop-pin" id="pin_slot_${s.id}" style="left:${s.x}%; top:${s.y}%;" onclick="placeP1Name('${s.id}')">
+            ${isFilled 
+              ? `<div class="pin-badge-filled">${assignedName}</div>`
+              : `<div class="pin-circle-empty" title="Tap to place selected name">📍</div>`
+            }
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('interactiveContentHost').innerHTML = `
+        <div class="names-bank" id="p1NamesBank"></div>
+        <div class="stage-container">
+          <img src="part1-scene-m04.jpg" class="stage-image" alt="Part 1 Fancy Dress Party" onerror="tryNextExtension(this, 'part1-scene-m04', 1)">
+          ${slotsHtml}
+        </div>
+      `;
+
+      document.getElementById('bottomBarHost').innerHTML = `
+        <div class="bottom-bar">
+          <div></div>
+          <button class="btn-act btn-next" onclick="nextPart(2)">Continue to Part 2 ➔</button>
+        </div>
+      `;
+
+      updateP1PillsDOM();
+    }
+
+    function updateP1PillsDOM() {
+      const bank = document.getElementById('p1NamesBank');
+      if (!bank) return;
+      bank.innerHTML = p1NamesList.map(n => {
+        const isUsed = Object.values(userAnswers.p1).includes(n);
+        const isSel = selectedPart1Name === n;
+        return `<button class="name-pill ${isUsed ? 'used' : ''} ${isSel ? 'selected' : ''}" onclick="pickP1Name('${n}')">${n}</button>`;
+      }).join('');
+    }
+
+    function updateSinglePinDOM(slotId) {
+      const pinEl = document.getElementById(`pin_slot_${slotId}`);
+      if (!pinEl) return;
+      const assignedName = userAnswers.p1[slotId];
+      if (assignedName) {
+        pinEl.innerHTML = `<div class="pin-badge-filled">${assignedName}</div>`;
+      } else {
+        pinEl.innerHTML = `<div class="pin-circle-empty" title="Tap to place selected name">📍</div>`;
+      }
+    }
+
+    function pickP1Name(name) {
+      if (Object.values(userAnswers.p1).includes(name)) return;
+      selectedPart1Name = (selectedPart1Name === name) ? null : name;
+      updateP1PillsDOM();
+    }
+
+    function placeP1Name(slotId) {
+      if (!selectedPart1Name) {
+        if (userAnswers.p1[slotId]) {
+          delete userAnswers.p1[slotId];
+          updateSinglePinDOM(slotId);
+          updateP1PillsDOM();
+        }
+        return;
+      }
+      userAnswers.p1[slotId] = selectedPart1Name;
+      selectedPart1Name = null;
+      updateSinglePinDOM(slotId);
+      updateP1PillsDOM();
+    }
+
+    // ==========================================
+    // PART 2: RICHARD'S FAMILY
+    // ==========================================
+    function renderPart2() {
+      document.getElementById('partHeaderHost').innerHTML = `
+        <div class="part-banner">
+          <h2 class="part-title"><span>📝</span> Part 2 — Listen and write</h2>
+        </div>
+      `;
+
+      document.getElementById('instructionsHost').innerHTML = `
+        <div class="instructions-box">
+          Listen and write. Complete the school notes about Richard's family.
+        </div>
+      `;
+
+      document.getElementById('interactiveContentHost').innerHTML = `
+        <div class="diary-board">
+          <h3 style="font-family:'Fredoka',cursive; color:#0b5cab; text-align:center; margin-bottom:12px; font-size:28px;">Richard's Family</h3>
+
+          <div class="diary-row">
+            <div class="diary-day">Oldest person:</div>
+            <div class="diary-field"><span style="text-decoration:underline; color:#0070ba;">grandmother</span> (Example)</div>
+          </div>
+
+          <div class="diary-row">
+            <div class="diary-day">1. Name:</div>
+            <div class="diary-field">
+              <input type="text" class="diary-input" id="p2_q1" placeholder="name" value="${userAnswers.p2.q1}">
+            </div>
+          </div>
+
+          <div class="diary-row">
+            <div class="diary-day">2. Age:</div>
+            <div class="diary-field">
+              <input type="text" class="diary-input" id="p2_q2" placeholder="number" value="${userAnswers.p2.q2}">
+            </div>
+          </div>
+
+          <div class="diary-row">
+            <div class="diary-day">3. Lives with:</div>
+            <div class="diary-field">
+              her <input type="text" class="diary-input" id="p2_q3" placeholder="relative" value="${userAnswers.p2.q3}">
+            </div>
+          </div>
+
+          <div class="diary-row">
+            <div class="diary-day">4. Job:</div>
+            <div class="diary-field">
+              <input type="text" class="diary-input" id="p2_q4" placeholder="profession" value="${userAnswers.p2.q4}">
+            </div>
+          </div>
+
+          <div class="diary-row">
+            <div class="diary-day">5. Favourite hobby:</div>
+            <div class="diary-field">
+              <input type="text" class="diary-input" id="p2_q5" placeholder="hobby" value="${userAnswers.p2.q5}">
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('bottomBarHost').innerHTML = `
+        <div class="bottom-bar">
+          <button class="btn-act btn-prev" onclick="prevPart(1)">⬅ Back</button>
+          <button class="btn-act btn-next" onclick="savePart2AndNext()">Continue to Part 3 ➔</button>
+        </div>
+      `;
+    }
+
+    function savePart2AndNext() {
+      const q1 = document.getElementById('p2_q1');
+      const q2 = document.getElementById('p2_q2');
+      const q3 = document.getElementById('p2_q3');
+      const q4 = document.getElementById('p2_q4');
+      const q5 = document.getElementById('p2_q5');
+      if (q1) userAnswers.p2.q1 = q1.value.trim();
+      if (q2) userAnswers.p2.q2 = q2.value.trim();
+      if (q3) userAnswers.p2.q3 = q3.value.trim();
+      if (q4) userAnswers.p2.q4 = q4.value.trim();
+      if (q5) userAnswers.p2.q5 = q5.value.trim();
+      nextPart(3);
+    }
+
+    // ==========================================
+    // PART 3: VICKY'S GRANDPA'S THINGS
+    // ==========================================
+    function renderPart3() {
+      const letters = ["A", "B", "C", "D", "E", "F", "G", "H"];
+
+      const items = [
+        {
+          id: "sea_painting",
+          name: "Sea painting",
+          fixed: "A",
+          svg: `<svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#0f172a"/><path d="M0 65 Q25 45 50 65 T100 65 L100 100 L0 100 Z" fill="#0284c7"/><path d="M0 75 Q25 55 50 75 T100 75 L100 100 L0 100 Z" fill="#0369a1"/><rect x="68" y="24" width="14" height="26" fill="#f8fafc"/><polygon points="75,12 85,24 65,24" fill="#ef4444"/><circle cx="75" cy="20" r="4" fill="#fef08a"/></svg>`
+        },
+        {
+          id: "plate",
+          name: "Butterfly plate",
+          svg: `<svg viewBox="0 0 100 100"><ellipse cx="50" cy="50" rx="44" ry="28" fill="#ffffff" stroke="#94a3b8" stroke-width="3"/><ellipse cx="50" cy="50" rx="32" ry="18" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/><circle cx="30" cy="50" r="5" fill="#38bdf8"/><circle cx="70" cy="50" r="5" fill="#38bdf8"/><circle cx="50" cy="38" r="4" fill="#ec4899"/><circle cx="50" cy="62" r="4" fill="#ec4899"/></svg>`
+        },
+        {
+          id: "mirror",
+          name: "Gold mirror",
+          svg: `<svg viewBox="0 0 100 100"><ellipse cx="50" cy="40" rx="26" ry="28" fill="#e0f2fe" stroke="#eab308" stroke-width="6"/><line x1="50" y1="68" x2="50" y2="92" stroke="#ca8a04" stroke-width="8" stroke-linecap="round"/><circle cx="50" cy="92" r="6" fill="#eab308"/></svg>`
+        },
+        {
+          id: "horse",
+          name: "Horse picture",
+          svg: `<svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#bbf7d0"/><path d="M0 70 Q50 50 100 70 L100 100 L0 100 Z" fill="#86efac"/><rect x="25" y="65" width="50" height="14" rx="4" fill="#78350f"/><ellipse cx="52" cy="52" rx="16" ry="10" fill="#ffffff" stroke="#64748b"/><circle cx="48" cy="42" r="4" fill="#ef4444"/></svg>`
+        },
+        {
+          id: "comb",
+          name: "Silver comb",
+          svg: `<svg viewBox="0 0 100 100"><rect x="15" y="32" width="70" height="16" rx="4" fill="#cbd5e1" stroke="#64748b" stroke-width="2"/><line x1="22" y1="48" x2="22" y2="76" stroke="#94a3b8" stroke-width="3"/><line x1="32" y1="48" x2="32" y2="76" stroke="#94a3b8" stroke-width="3"/><line x1="42" y1="48" x2="42" y2="76" stroke="#94a3b8" stroke-width="3"/><line x1="52" y1="48" x2="52" y2="76" stroke="#94a3b8" stroke-width="3"/><line x1="62" y1="48" x2="62" y2="76" stroke="#94a3b8" stroke-width="3"/><line x1="72" y1="48" x2="72" y2="76" stroke="#94a3b8" stroke-width="3"/><line x1="78" y1="48" x2="78" y2="76" stroke="#94a3b8" stroke-width="3"/></svg>`
+        },
+        {
+          id: "garden",
+          name: "Garden painting",
+          svg: `<svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#fed7aa"/><rect x="18" y="24" width="64" height="52" fill="#86efac" stroke="#16a34a" stroke-width="2"/><circle cx="34" cy="44" r="6" fill="#ef4444"/><circle cx="50" cy="56" r="7" fill="#facc15"/><circle cx="66" cy="42" r="6" fill="#a855f7"/><circle cx="40" cy="64" r="5" fill="#3b82f6"/></svg>`
+        }
+      ];
+
+      const places = [
+        { l: "A", name: "Old Castle", svg: `<svg viewBox="0 0 160 120"><rect width="160" height="120" fill="#bae6fd"/><rect x="30" y="45" width="100" height="60" fill="#cbd5e1" stroke="#64748b" stroke-width="2"/><rect x="22" y="30" width="26" height="35" fill="#94a3b8"/><rect x="112" y="30" width="26" height="35" fill="#94a3b8"/><rect x="68" y="70" width="24" height="35" rx="12" fill="#334155"/></svg>` },
+        { l: "B", name: "Basement with Bicycle", svg: `<svg viewBox="0 0 160 120"><rect width="160" height="120" fill="#94a3b8"/><polygon points="90,120 160,30 160,120" fill="#64748b"/><line x1="90" y1="120" x2="160" y2="30" stroke="#cbd5e1" stroke-width="6"/><circle cx="45" cy="92" r="16" fill="none" stroke="#ef4444" stroke-width="3"/><circle cx="85" cy="92" r="16" fill="none" stroke="#ef4444" stroke-width="3"/><line x1="45" y1="92" x2="65" y2="92" stroke="#ef4444" stroke-width="2.5"/><line x1="65" y1="92" x2="60" y2="76" stroke="#ef4444" stroke-width="2.5"/></svg>` },
+        { l: "C", name: "Cave in Mountains", svg: `<svg viewBox="0 0 160 120"><rect width="160" height="120" fill="#bae6fd"/><polygon points="10,120 50,30 90,120" fill="#94a3b8"/><polygon points="70,120 110,20 150,120" fill="#cbd5e1"/><ellipse cx="80" cy="100" rx="30" ry="20" fill="#1e293b"/></svg>` },
+        { l: "D", name: "Street Market Stalls", svg: `<svg viewBox="0 0 160 120"><rect width="160" height="120" fill="#fef08a" opacity="0.3"/><rect x="20" y="55" width="55" height="45" fill="#22c55e"/><polygon points="15,55 48,25 80,55" fill="#ef4444" stroke="#b91c1c"/><rect x="85" y="55" width="55" height="45" fill="#3b82f6"/><polygon points="80,55 112,25 145,55" fill="#facc15" stroke="#ca8a04"/></svg>` },
+        { l: "E", name: "Museum in London", svg: `<svg viewBox="0 0 160 120"><rect width="160" height="120" fill="#f1f5f9"/><rect x="25" y="40" width="30" height="65" fill="#fde047" stroke="#ca8a04"/><line x1="65" y1="80" x2="125" y2="80" stroke="#64748b" stroke-width="2"/><ellipse cx="135" cy="55" rx="10" ry="22" fill="#ffffff" stroke="#94a3b8"/></svg>` },
+        { l: "F", name: "University Building", svg: `<svg viewBox="0 0 160 120"><rect width="160" height="120" fill="#bae6fd"/><rect x="20" y="40" width="120" height="65" fill="#b45309" stroke="#78350f" stroke-width="2"/><rect x="65" y="20" width="30" height="40" fill="#9a3412"/><rect x="35" y="52" width="14" height="16" fill="#38bdf8"/><rect x="110" y="52" width="14" height="16" fill="#38bdf8"/></svg>` },
+        { l: "G", name: "Desert & Pyramids", svg: `<svg viewBox="0 0 160 120"><rect width="160" height="120" fill="#fed7aa"/><polygon points="10,105 60,35 110,105" fill="#f59e0b"/><polygon points="80,105 125,50 160,105" fill="#d97706"/><circle cx="140" cy="30" r="14" fill="#ef4444"/></svg>` },
+        { l: "H", name: "Bookshop", svg: `<svg viewBox="0 0 160 120"><rect width="160" height="120" fill="#e2e8f0"/><rect x="30" y="30" width="100" height="75" fill="#ffffff" stroke="#0284c7" stroke-width="3"/><line x1="30" y1="55" x2="130" y2="55" stroke="#94a3b8"/><line x1="30" y1="80" x2="130" y2="80" stroke="#94a3b8"/><rect x="40" y="38" width="10" height="17" fill="#ef4444"/><rect x="52" y="38" width="12" height="17" fill="#3b82f6"/><rect x="66" y="38" width="8" height="17" fill="#10b981"/></svg>` }
+      ];
+
+      let itemsHtml = items.map(item => {
+        if (item.fixed) {
+          return `
+            <div class="friend-row-card" style="background:#f0fdf4; border-color:#86efac;">
+              <div class="friend-identity">
+                <div class="art-frame-box">${item.svg}</div>
+                <div>
+                  <div class="friend-name-text">${item.name}</div>
+                  <span style="font-size:14px; font-weight:700; color:#15803d;">Example</span>
+                </div>
+              </div>
+              <div class="example-box-fixed">${item.fixed}</div>
+            </div>
+          `;
+        }
+
+        let opts = letters.map(l => `<option value="${l}" ${userAnswers.p3[item.id] === l ? 'selected' : ''}>${l}</option>`).join('');
+
+        return `
+          <div class="friend-row-card">
+            <div class="friend-identity">
+              <div class="art-frame-box">${item.svg}</div>
+              <div>
+                <div class="friend-name-text">${item.name}</div>
+              </div>
+            </div>
+            <div class="box-input-container">
+              <select class="letter-dropdown-cambridge" id="p3_${item.id}" onchange="userAnswers.p3['${item.id}']=this.value">
+                <option value="">?</option>
+                ${opts}
+              </select>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      let placesHtml = places.map(p => `
+        <div class="workplace-card-item">
+          <div class="workplace-art-wrap">${p.svg}</div>
+          <div class="letter-tag-bold">Letter ${p.l}</div>
+          <p style="font-size:15px; font-weight:700; color:#334155;">${p.name}</p>
+        </div>
+      `).join('');
+
+      document.getElementById('partHeaderHost').innerHTML = `
+        <div class="part-banner">
+          <h2 class="part-title"><span>🔍</span> Part 3 — Where did Vicky's grandpa get these things?</h2>
+        </div>
+      `;
+
+      document.getElementById('instructionsHost').innerHTML = `
+        <div class="instructions-box">
+          Where did Vicky's grandpa get each thing? Listen and write a letter (A–H) in each box. (There is one example).
+        </div>
+      `;
+
+      document.getElementById('interactiveContentHost').innerHTML = `
+        <div class="part3-cambridge-container">
+          <div class="friends-list-column">
+            <h3 style="font-family:'Fredoka',cursive; color:#0b5cab; font-size:26px; margin-bottom:4px;">Grandpa's Objects</h3>
+            ${itemsHtml}
+          </div>
+
+          <div>
+            <h3 style="font-family:'Fredoka',cursive; color:#0b5cab; font-size:26px; margin-bottom:12px; text-align:center;">Places Found (A to H)</h3>
+            <div class="workplaces-grid-column">
+              ${placesHtml}
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('bottomBarHost').innerHTML = `
+        <div class="bottom-bar">
+          <button class="btn-act btn-prev" onclick="prevPart(2)">⬅ Back</button>
+          <button class="btn-act btn-next" onclick="savePart3AndNext()">Continue to Part 4 ➔</button>
+        </div>
+      `;
+    }
+
+    function savePart3AndNext() {
+      ['plate', 'mirror', 'horse', 'comb', 'garden'].forEach(k => {
+        const el = document.getElementById(`p3_${k}`);
+        if (el) userAnswers.p3[k] = el.value;
+      });
+      nextPart(4);
+    }
+
+    // ==========================================
+    // PART 4: LISTEN AND TICK THE BOX
+    // ==========================================
+    const p4Questions = [
+      { num: "1", title: "1. Where are Dad's keys?", base: "p4-m04-q1" },
+      { num: "2", title: "2. Where is Dad going to go first?", base: "p4-m04-q2" },
+      { num: "3", title: "3. What happened to Tom last Saturday?", base: "p4-m04-q3" },
+      { num: "4", title: "4. Which is the team's new football shirt?", base: "p4-m04-q4" },
+      { num: "5", title: "5. What time will Bill's football game finish?", base: "p4-m04-q5" }
+    ];
+
+    function renderPart4() {
+      document.getElementById('partHeaderHost').innerHTML = `
+        <div class="part-banner">
+          <h2 class="part-title"><span>☑️</span> Part 4 — Listen and tick the box</h2>
+        </div>
+      `;
+
+      document.getElementById('instructionsHost').innerHTML = `
+        <div class="instructions-box">
+          Listen and tick (✔) the box. There is one example.
+        </div>
+      `;
+
+      let questionsHtml = p4Questions.map(q => {
+        const isA = userAnswers.p4[`q${q.num}`] === 'A';
+        const isB = userAnswers.p4[`q${q.num}`] === 'B';
+        const isC = userAnswers.p4[`q${q.num}`] === 'C';
+
+        return `
+          <div class="part4-question-card">
+            <h3 class="p4-question-heading">${q.title}</h3>
+            
+            <div class="p4-visual-ref">
+              <img src="${q.base}.jpg" alt="Question ${q.num}" onerror="tryNextExtension(this, '${q.base}', 1)">
+            </div>
+
+            <div class="p4-options-row" id="p4_row_q${q.num}">
+              <button class="p4-box-choice ${isA ? 'selected' : ''}" data-val="A" onclick="selectP4Option('q${q.num}', 'A')">
+                ${isA ? '✔ ' : ''}Box A
+              </button>
+              <button class="p4-box-choice ${isB ? 'selected' : ''}" data-val="B" onclick="selectP4Option('q${q.num}', 'B')">
+                ${isB ? '✔ ' : ''}Box B
+              </button>
+              <button class="p4-box-choice ${isC ? 'selected' : ''}" data-val="C" onclick="selectP4Option('q${q.num}', 'C')">
+                ${isC ? '✔ ' : ''}Box C
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('interactiveContentHost').innerHTML = `
+        <!-- TARJETA DEL EJEMPLO OFICIAL (CAR - BOX C) -->
+        <div class="part4-question-card is-example">
+          <h3 class="p4-question-heading">
+            <span>Example: How is Bill going to get to the football game?</span>
+            <span style="font-size:16px; background:#dcfce7; color:#15803d; padding:4px 14px; border-radius:999px; border:2px solid #86efac;">Example</span>
+          </h3>
+          
+          <div class="p4-visual-ref">
+            <img src="p4-m04-example.jpg" alt="Part 4 Example" onerror="tryNextExtension(this, 'p4-m04-example', 1)">
+          </div>
+
+          <div class="p4-options-row">
+            <button class="p4-box-choice" style="cursor:default; opacity:0.65;">Box A</button>
+            <button class="p4-box-choice" style="cursor:default; opacity:0.65;">Box B</button>
+            <button class="p4-box-choice fixed-example">✔ Box C</button>
+          </div>
+        </div>
+
+        ${questionsHtml}
+      `;
+
+      document.getElementById('bottomBarHost').innerHTML = `
+        <div class="bottom-bar">
+          <button class="btn-act btn-prev" onclick="prevPart(3)">⬅ Back</button>
+          <button class="btn-act btn-next" onclick="nextPart(5)">Continue to Part 5 ➔</button>
+        </div>
+      `;
+    }
+
+    function selectP4Option(qKey, val) {
+      userAnswers.p4[qKey] = val;
+      const row = document.getElementById(`p4_row_${qKey}`);
+      if (!row) return;
+
+      const buttons = row.querySelectorAll('button');
+      buttons.forEach(btn => {
+        const bVal = btn.getAttribute('data-val');
+        if (bVal === val) {
+          btn.classList.add('selected');
+          btn.innerHTML = `✔ Box ${bVal}`;
+        } else {
+          btn.classList.remove('selected');
+          btn.innerHTML = `Box ${bVal}`;
+        }
+      });
+    }
+
+    // ==========================================
+    // PART 5: CANVAS HÍBRIDO (BARBACOA Y BOMBEROS)
+    // ==========================================
+    let currentDrawingTool = "crayon";
+    let currentDrawingColor = "#ec4899"; // Comienza con rosado para los sándwiches
+    let isDrawingOnCanvas = false;
+    let canvasCtx = null;
+
+    const part5ExpandedPalette = [
+      { name: "Pink",   hex: "#ec4899", rgba: "rgba(236, 72, 153, 0.48)" },
+      { name: "Brown",  hex: "#78350f", rgba: "rgba(120, 53, 15, 0.48)" },
+      { name: "Blue",   hex: "#0284c7", rgba: "rgba(2, 132, 199, 0.48)" },
+      { name: "Purple", hex: "#7928ca", rgba: "rgba(121, 40, 202, 0.48)" },
+      { name: "Yellow", hex: "#eab308", rgba: "rgba(234, 179, 8, 0.48)" },
+      { name: "Red",    hex: "#ef4444", rgba: "rgba(239, 68, 68, 0.48)" },
+      { name: "Green",  hex: "#16a34a", rgba: "rgba(22, 163, 74, 0.48)" },
+      { name: "Orange", hex: "#f97316", rgba: "rgba(249, 115, 22, 0.48)" },
+      { name: "Black",  hex: "#1e293b", rgba: "rgba(30, 41, 59, 0.55)" },
+      { name: "Grey",   hex: "#94a3b8", rgba: "rgba(148, 163, 184, 0.5)" }
+    ];
+
+    function renderPart5() {
+      document.getElementById('partHeaderHost').innerHTML = `
+        <div class="part-banner">
+          <h2 class="part-title"><span>🎨</span> Part 5 — Listen, colour, draw and write</h2>
+        </div>
+      `;
+
+      document.getElementById('instructionsHost').innerHTML = `
+        <div class="instructions-box">
+          1. <strong>To Color:</strong> Pick a crayon color and paint on the picture (colors are translucent highlighters so drawings stay visible).<br>
+          2. <strong>To Draw:</strong> Choose the <strong>✏️ Pencil</strong> (in brown or other colors) to draw what the audio asks you.<br>
+          3. <strong>To Write:</strong> Type the missing word for the boy's back in the clean answer card below.
+        </div>
+      `;
+
+      const paletteButtonsHtml = part5ExpandedPalette.map(c => `
+        <button class="c-palette-btn ${currentDrawingColor === c.hex ? 'active' : ''}" 
+                id="btn_color_${c.hex.replace('#','')}"
+                style="background:${c.hex};" 
+                onclick="setPart5DrawingColor('${c.hex}')" 
+                title="${c.name}"></button>
+      `).join('');
+
+      document.getElementById('interactiveContentHost').innerHTML = `
+        <div class="canvas-tools-panel">
+          <button class="canvas-tool-btn ${currentDrawingTool === 'crayon' ? 'active' : ''}" id="btn_tool_crayon" onclick="setPart5DrawingTool('crayon')">
+            <span>🖍️</span> Crayon (Color)
+          </button>
+
+          <button class="canvas-tool-btn ${currentDrawingTool === 'pencil' ? 'active' : ''}" id="btn_tool_pencil" onclick="setPart5DrawingTool('pencil')">
+            <span>✏️</span> Pencil (Draw)
+          </button>
+
+          <div style="width:2px; height:28px; background:#cbd5e1; margin:0 4px;"></div>
+
+          <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            ${paletteButtonsHtml}
+          </div>
+
+          <div style="width:2px; height:28px; background:#cbd5e1; margin:0 4px;"></div>
+
+          <button class="canvas-tool-btn ${currentDrawingTool === 'eraser' ? 'active' : ''}" id="btn_tool_eraser" onclick="setPart5DrawingTool('eraser')">
+            <span>🧹</span> Eraser
+          </button>
+
+          <button class="canvas-tool-btn" onclick="clearCanvasCompletely()">
+            <span>🗑️</span> Clear
+          </button>
+        </div>
+
+        <div class="part5-canvas-stage-wrap" id="canvasContainerBox">
+          <img src="part5-bbq-m04.jpg" id="bbqSceneImage" alt="Garden BBQ and Fire Engine Scene" onerror="tryNextExtension(this, 'part5-bbq-m04', 1)">
+          <canvas id="drawingCanvas"></canvas>
+        </div>
+
+        <div class="part5-writing-card">
+          <h3 style="font-family:'Fredoka',cursive; color:#0b5cab; font-size:24px;">📝 Question 4 — Word on the Boy's Back</h3>
+          <p style="font-weight:700; color:#475569; font-size:18px; margin-top:6px;">
+            Write the word on the back of the bigger boy under the table (under the star):
+          </p>
+          <input type="text" class="part5-writing-input" id="p5_word_field" placeholder="Type word here..." value="${userAnswers.p5.word}" oninput="userAnswers.p5.word=this.value">
+        </div>
+      `;
+
+      document.getElementById('bottomBarHost').innerHTML = `
+        <div class="bottom-bar">
+          <button class="btn-act btn-prev" onclick="prevPart(4)">⬅ Back</button>
+          <button class="btn-act btn-next" onclick="finishExam()">Finish & Check All Answers ➔</button>
+        </div>
+      `;
+
+      setTimeout(setupCanvasElement, 80);
+    }
+
+    function setupCanvasElement() {
+      const canvas = document.getElementById('drawingCanvas');
+      const img = document.getElementById('bbqSceneImage');
+      if (!canvas || !img) return;
+
+      canvas.width = img.clientWidth || 960;
+      canvas.height = img.clientHeight || 580;
+      canvasCtx = canvas.getContext('2d');
+
+      redrawAllStrokesFromHistory();
+
+      canvas.addEventListener('mousedown', onPointerStart);
+      canvas.addEventListener('mousemove', onPointerMove);
+      canvas.addEventListener('mouseup', onPointerEnd);
+      canvas.addEventListener('mouseleave', onPointerEnd);
+
+      canvas.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        onPointerStart(e.touches[0]);
+      }, { passive: false });
+
+      canvas.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+        onPointerMove(e.touches[0]);
+      }, { passive: false });
+
+      canvas.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        onPointerEnd();
+      }, { passive: false });
+    }
+
+    let activeStrokeData = null;
+
+    function getNormalizedCanvasCoords(e) {
+      const canvas = document.getElementById('drawingCanvas');
+      const rect = canvas.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+      return {
+        normX: Math.max(0, Math.min(1, x)),
+        normY: Math.max(0, Math.min(1, y)),
+        pixelX: e.clientX - rect.left,
+        pixelY: e.clientY - rect.top
+      };
+    }
+
+    function getColorRgba(hex) {
+      const found = part5ExpandedPalette.find(p => p.hex === hex);
+      return found ? found.rgba : "rgba(236, 72, 153, 0.48)";
+    }
+
+    function onPointerStart(e) {
+      isDrawingOnCanvas = true;
+      const pos = getNormalizedCanvasCoords(e);
+
+      canvasCtx.beginPath();
+      canvasCtx.moveTo(pos.pixelX, pos.pixelY);
+
+      activeStrokeData = {
+        tool: currentDrawingTool,
+        color: currentDrawingColor,
+        points: [{ x: pos.normX, y: pos.normY }]
+      };
+    }
+
+    function onPointerMove(e) {
+      if (!isDrawingOnCanvas || !canvasCtx) return;
+      const pos = getNormalizedCanvasCoords(e);
+
+      if (currentDrawingTool === 'eraser') {
+        canvasCtx.globalCompositeOperation = 'destination-out';
+        canvasCtx.lineWidth = 26;
+      } else if (currentDrawingTool === 'pencil') {
+        canvasCtx.globalCompositeOperation = 'source-over';
+        canvasCtx.strokeStyle = currentDrawingColor;
+        canvasCtx.lineWidth = 4.5;
+        canvasCtx.lineCap = 'round';
+        canvasCtx.lineJoin = 'round';
+      } else { 
+        canvasCtx.globalCompositeOperation = 'multiply';
+        canvasCtx.strokeStyle = getColorRgba(currentDrawingColor);
+        canvasCtx.lineWidth = 20;
+        canvasCtx.lineCap = 'round';
+        canvasCtx.lineJoin = 'round';
+      }
+
+      canvasCtx.lineTo(pos.pixelX, pos.pixelY);
+      canvasCtx.stroke();
+
+      if (activeStrokeData) {
+        activeStrokeData.points.push({ x: pos.normX, y: pos.normY });
+      }
+    }
+
+    function onPointerEnd() {
+      if (isDrawingOnCanvas && activeStrokeData) {
+        userAnswers.p5.canvasStrokes.push(activeStrokeData);
+      }
+      isDrawingOnCanvas = false;
+      activeStrokeData = null;
+    }
+
+    function redrawAllStrokesFromHistory() {
+      const canvas = document.getElementById('drawingCanvas');
+      if (!canvas || !canvasCtx) return;
+      canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+
+      userAnswers.p5.canvasStrokes.forEach(stk => {
+        if (!stk.points || stk.points.length < 2) return;
+        canvasCtx.beginPath();
+        if (stk.tool === 'eraser') {
+          canvasCtx.globalCompositeOperation = 'destination-out';
+          canvasCtx.lineWidth = 26;
+        } else if (stk.tool === 'pencil') {
+          canvasCtx.globalCompositeOperation = 'source-over';
+          canvasCtx.strokeStyle = stk.color;
+          canvasCtx.lineWidth = 4.5;
+          canvasCtx.lineCap = 'round';
+          canvasCtx.lineJoin = 'round';
+        } else {
+          canvasCtx.globalCompositeOperation = 'multiply';
+          canvasCtx.strokeStyle = getColorRgba(stk.color);
+          canvasCtx.lineWidth = 20;
+          canvasCtx.lineCap = 'round';
+          canvasCtx.lineJoin = 'round';
+        }
+
+        canvasCtx.moveTo(stk.points[0].x * canvas.width, stk.points[0].y * canvas.height);
+        for (let i = 1; i < stk.points.length; i++) {
+          canvasCtx.lineTo(stk.points[i].x * canvas.width, stk.points[i].y * canvas.height);
+        }
+        canvasCtx.stroke();
+      });
+    }
+
+    function clearCanvasCompletely() {
+      userAnswers.p5.canvasStrokes = [];
+      const canvas = document.getElementById('drawingCanvas');
+      if (canvas && canvasCtx) {
+        canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+
+    function setPart5DrawingTool(tool) {
+      currentDrawingTool = tool;
+      if (tool === 'pencil' && currentDrawingColor === '#ec4899') {
+        currentDrawingColor = '#78350f';
+      }
+
+      ['crayon', 'pencil', 'eraser'].forEach(t => {
+        const btn = document.getElementById(`btn_tool_${t}`);
+        if (btn) {
+          if (t === tool) btn.classList.add('active');
+          else btn.classList.remove('active');
+        }
+      });
+    }
+
+    function setPart5DrawingColor(hex) {
+      currentDrawingColor = hex;
+      if (currentDrawingTool === 'eraser') {
+        setPart5DrawingTool('crayon');
+      }
+
+      part5ExpandedPalette.forEach(c => {
+        const btn = document.getElementById(`btn_color_${c.hex.replace('#','')}`);
+        if (btn) {
+          if (c.hex === hex) btn.classList.add('active');
+          else btn.classList.remove('active');
+        }
+      });
+    }
+
+    function savePart5CurrentWord() {
+      const el = document.getElementById('p5_word_field');
+      if (el) userAnswers.p5.word = cleanInput(el.value);
+    }
+
+    // ==========================================
+    // RESULTADOS FINALES Y EVALUACIÓN BILINGÜE
+    // ==========================================
+    function finishExam() {
+      stopAllAudio();
+      savePart5CurrentWord();
+
+      const canvas = document.getElementById('drawingCanvas');
+      if (canvas) {
+        try {
+          userAnswers.p5.drawingSnapshot = canvas.toDataURL("image/png");
+        } catch(e) {}
+      }
+
+      let score = 0;
+      let feedbackList = [];
+
+      // PART 1 FEEDBACK
+      const p1Map = [
+        { slot: "dinosaur_chicken", expected: "Michael", label: "Dinosaur eating chicken", clue: "Michael is the dinosaur eating a piece of chicken." },
+        { slot: "girl_green_tights", expected: "Sarah", label: "Girl with long hair and green tights", clue: "Sarah is the girl wearing green tights." },
+        { slot: "queen_glass_hand", expected: "Katy", label: "Queen with a glass in her hand", clue: "Katy is the queen who's got a glass in her hand." },
+        { slot: "bear_head_removed", expected: "David", label: "Bear with head removed", clue: "David is the uncle dressed as a bear who has taken his head off." },
+        { slot: "girl_pizza_hat", expected: "Helen", label: "Girl with pizza hat and salad dress", clue: "Helen is the sister whose hat is a pizza and dress is like salad." }
+      ];
+
+      p1Map.forEach(item => {
+        const user = userAnswers.p1[item.slot];
+        if (user && user === item.expected) {
+          score++;
+          feedbackList.push({ part: 1, ok: true, msg: `¡Excelente! Uniste a <strong>${item.expected}</strong> (${item.label}).` });
+        } else {
+          feedbackList.push({ part: 1, ok: false, msg: `Era <strong>${item.expected}</strong>. Pista: <em>"${item.clue}"</em>.` });
+        }
+      });
+
+      if (userAnswers.p1["distractor_nurse"]) {
+        feedbackList.push({ part: 1, ok: false, msg: `Distractor: La enfermera de pie junto a la puerta no era Helen ni tenía nombre en la lista.` });
+      }
+      if (userAnswers.p1["distractor_clown"]) {
+        feedbackList.push({ part: 1, ok: false, msg: `Distractor: El payaso de zapatos grandes era Harry (el ejemplo oficial).` });
+      }
+
+      // PART 2 FEEDBACK
+      const p2Map = [
+        { q: "q1", ans: "Beulah", label: "Grandmother's name", clue: "Her name is Beulah (B-E-U-L-A-H)." },
+        { q: "q2", ans: "91 / ninety-one", label: "Age", clue: "She is ninety-one (91)." },
+        { q: "q3", ans: "brother", label: "Lives with", clue: "She lives with her brother." },
+        { q: "q4", ans: "photographer", label: "Job", clue: "She was a photographer for famous newspapers." },
+        { q: "q5", ans: "computer games", label: "Favourite hobby", clue: "She likes computer games best." }
+      ];
+
+      p2Map.forEach(item => {
+        const userVal = cleanInput(userAnswers.p2[item.q]);
+        const valid = answerKey.p2[item.q].some(a => userVal.includes(cleanInput(a)));
+        if (valid) {
+          score++;
+          feedbackList.push({ part: 2, ok: true, msg: `¡Muy bien! Escribiste <strong>${item.ans}</strong> para ${item.label}.` });
+        } else {
+          feedbackList.push({ part: 2, ok: false, msg: `La respuesta correcta era <strong>${item.ans}</strong>. Pista: <em>"${item.clue}"</em>.` });
+        }
+      });
+
+      // PART 3 FEEDBACK
+      const p3Map = [
+        { item: "comb", letter: "D", place: "Market", clue: "Grandpa bought his silver comb from an old woman in a market." },
+        { item: "garden", letter: "B", place: "Basement", clue: "His garden painting was in his friend's basement." },
+        { item: "mirror", letter: "E", place: "Museum", clue: "He bought the gold mirror when he visited a museum in London." },
+        { item: "horse", letter: "F", place: "University", clue: "He bought the horse picture from an artist who works at a university." },
+        { item: "plate", letter: "C", place: "Cave", clue: "He found the butterfly plate in a cave when climbing a mountain." }
+      ];
+
+      p3Map.forEach(it => {
+        const userLetter = userAnswers.p3[it.item];
+        if (userLetter === it.letter) {
+          score++;
+          feedbackList.push({ part: 3, ok: true, msg: `¡Correcto! ${it.item.toUpperCase()} va con <strong>Letter ${it.letter} (${it.place})</strong>.` });
+        } else {
+          feedbackList.push({ part: 3, ok: false, msg: `${it.item.toUpperCase()}: Corresponde a <strong>Letter ${it.letter} (${it.place})</strong>. Pista: <em>"${it.clue}"</em>.` });
+        }
+      });
+
+      // PART 4 FEEDBACK
+      const p4Map = [
+        { q: "q1", box: "A", clue: "Dad's keys are still in the door (Box A)." },
+        { q: "q2", box: "B", clue: "Dad takes Bill directly to the football pitch/club first (Box B)." },
+        { q: "q3", box: "C", clue: "Tom fell over during the game and broke his arm (Box C)." },
+        { q: "q4", box: "B", clue: "The team's new shirt is black with two red stripes (Box B)." },
+        { q: "q5", box: "B", clue: "Bill's game will finish at quarter past twelve / 12:15 (Box B)." }
+      ];
+
+      p4Map.forEach(item => {
+        const userChoice = userAnswers.p4[item.q];
+        if (userChoice === item.box) {
+          score++;
+          feedbackList.push({ part: 4, ok: true, msg: `¡Acertaste! Pregunta ${item.q.replace('q','')}: Marcaste <strong>Box ${item.box}</strong>.` });
+        } else {
+          feedbackList.push({ part: 4, ok: false, msg: `Pregunta ${item.q.replace('q','')}: Era <strong>Box ${item.box}</strong>. En el audio dijeron: <em>"${item.clue}"</em>.` });
+        }
+      });
+
+      // PART 5 FEEDBACK
+      // 1. Sándwiches en el suelo rosados (#ec4899)
+      const hasPinkSandwiches = userAnswers.p5.canvasStrokes.some(stk => 
+        stk.color === '#ec4899' && stk.points.some(p => p.x >= 0.02 && p.x <= 0.16 && p.y >= 0.88 && p.y <= 0.99)
+      );
+      if (hasPinkSandwiches) {
+        score++;
+        feedbackList.push({ part: 5, ok: true, msg: "¡Bien coloreado! Pintaste de <strong>rosado (pink)</strong> los sándwiches que están en el suelo." });
+      } else {
+        feedbackList.push({ part: 5, ok: false, msg: "Part 5 (1): Los sándwiches en el suelo debían ser de color <strong>rosado (pink)</strong>." });
+      }
+
+      // 2. Cuchara dibujada junto al tazón y marrón (#78350f)
+      const hasBrownSpoon = userAnswers.p5.canvasStrokes.some(stk => 
+        stk.color === '#78350f' && stk.points.some(p => p.x >= 0.44 && p.x <= 0.65 && p.y >= 0.68 && p.y <= 0.78)
+      );
+      if (hasBrownSpoon) {
+        score++;
+        feedbackList.push({ part: 5, ok: true, msg: "¡Gran dibujo! Dibujaste una cuchara <strong>marrón (brown)</strong> al lado del tazón en la mesa." });
+      } else {
+        feedbackList.push({ part: 5, ok: false, msg: "Part 5 (2): Debías dibujar una cuchara junto al tazón en la mesa y pintarla de <strong>marrón</strong>." });
+      }
+
+      // 3. Chaqueta del bombero junto al muro azul (#0284c7)
+      const hasBlueJacket = userAnswers.p5.canvasStrokes.some(stk => 
+        stk.color === '#0284c7' && stk.points.some(p => p.x >= 0.68 && p.x <= 0.82 && p.y >= 0.28 && p.y <= 0.44)
+      );
+      if (hasBlueJacket) {
+        score++;
+        feedbackList.push({ part: 5, ok: true, msg: "¡Excelente! Pintaste de <strong>azul (blue)</strong> la chaqueta del bombero junto al muro." });
+      } else {
+        feedbackList.push({ part: 5, ok: false, msg: "Part 5 (3): La chaqueta del bombero de pie junto al muro activando el agua debía ser <strong>azul</strong>." });
+      }
+
+      // 4. Palabra 'SPACE' escrita en la espalda del niño debajo de la estrella
+      const wordOk = answerKey.p5.word.map(w => cleanInput(w)).includes(cleanInput(userAnswers.p5.word));
+      if (wordOk) {
+        score++;
+        feedbackList.push({ part: 5, ok: true, msg: "¡Correcto! Escribiste <strong>SPACE</strong> en la espalda del niño." });
+      } else {
+        feedbackList.push({ part: 5, ok: false, msg: "Part 5 (4): La palabra que debías escribir debajo de la estrella en la espalda del niño era <strong>SPACE</strong>." });
+      }
+
+      // 5. Cara de la mujer que corre morada (#7928ca)
+      const hasPurpleFace = userAnswers.p5.canvasStrokes.some(stk => 
+        stk.color === '#7928ca' && stk.points.some(p => p.x >= 0.15 && p.x <= 0.23 && p.y >= 0.40 && p.y <= 0.52)
+      );
+      if (hasPurpleFace) {
+        score++;
+        feedbackList.push({ part: 5, ok: true, msg: "¡Muy bien! Pintaste de <strong>morado (purple)</strong> la cara de la mujer que viene corriendo." });
+      } else {
+        feedbackList.push({ part: 5, ok: false, msg: "Part 5 (5): La cara de la madre/mujer que viene corriendo debía ser de color <strong>morado (purple)</strong>." });
+      }
+
+      // ESCALA OFICIAL DE ESCUDOS CAMBRIDGE
+      let shields = 1;
+      if (score >= 21) shields = 5;
+      else if (score >= 16) shields = 4;
+      else if (score >= 11) shields = 3;
+      else if (score >= 6) shields = 2;
+
+      localStorage.setItem("flyers_listening_score_04", score);
+
+      const rawMocks = localStorage.getItem("flyers_mocks_status_01_30");
+      if (rawMocks) {
+        try {
+          let st = JSON.parse(rawMocks);
+          if (st[4]) {
+            st[4].listeningScore = score;
+            if (score >= 12) st[4].completed = true;
+          }
+          localStorage.setItem("flyers_mocks_status_01_30", JSON.stringify(st));
+        } catch(e) {}
+      }
+
+      currentPart = 6;
+      renderResults(score, shields, feedbackList);
+    }
+
+    function renderResults(score = 0, shields = 3, feedbackList = []) {
+      document.getElementById('partHeaderHost').innerHTML = '';
+      document.getElementById('persistentAudioHost').innerHTML = '';
+      document.getElementById('instructionsHost').innerHTML = '';
+      document.getElementById('bottomBarHost').innerHTML = '';
+
+      let shieldIcons = "🛡️".repeat(shields);
+
+      let p1Fb = feedbackList.filter(f => f.part === 1).map(f => `<div class="feedback-item-row"><span class="fb-tag ${f.ok ? 'fb-correct' : 'fb-wrong'}">${f.ok ? '✔ Correct' : '✖ Review'}</span> <span>${f.msg}</span></div>`).join('');
+      let p2Fb = feedbackList.filter(f => f.part === 2).map(f => `<div class="feedback-item-row"><span class="fb-tag ${f.ok ? 'fb-correct' : 'fb-wrong'}">${f.ok ? '✔ Correct' : '✖ Review'}</span> <span>${f.msg}</span></div>`).join('');
+      let p3Fb = feedbackList.filter(f => f.part === 3).map(f => `<div class="feedback-item-row"><span class="fb-tag ${f.ok ? 'fb-correct' : 'fb-wrong'}">${f.ok ? '✔ Correct' : '✖ Review'}</span> <span>${f.msg}</span></div>`).join('');
+      let p4Fb = feedbackList.filter(f => f.part === 4).map(f => `<div class="feedback-item-row"><span class="fb-tag ${f.ok ? 'fb-correct' : 'fb-wrong'}">${f.ok ? '✔ Correct' : '✖ Review'}</span> <span>${f.msg}</span></div>`).join('');
+      let p5Fb = feedbackList.filter(f => f.part === 5).map(f => `<div class="feedback-item-row"><span class="fb-tag ${f.ok ? 'fb-correct' : 'fb-wrong'}">${f.ok ? '✔ Correct' : '✖ Review'}</span> <span>${f.msg}</span></div>`).join('');
+
+      const snapshotHtml = userAnswers.p5.drawingSnapshot ? `
+        <div style="margin-top:26px; text-align:center;">
+          <h4 style="font-family:'Fredoka',cursive; color:#0b5cab; font-size:22px; margin-bottom:10px;">Tu lámina coloreada de la barbacoa (Part 5)</h4>
+          <div style="position:relative; max-width:480px; margin:0 auto; border-radius:20px; overflow:hidden; border:3.5px solid var(--card-border); background:#ffffff;">
+            <img src="part5-bbq-m04.jpg" style="width:100%; display:block;" onerror="tryNextExtension(this, 'part5-bbq-m04', 1)">
+            <img src="${userAnswers.p5.drawingSnapshot}" style="position:absolute; top:0; left:0; width:100%; height:100%;">
+          </div>
+        </div>
+      ` : '';
+
+      document.getElementById('interactiveContentHost').innerHTML = `
+        <div style="text-align: center; padding: 20px 10px;">
+          <h2 style="font-family:'Fredoka',cursive; font-size:46px; color:#0b5cab;">Listening Test Complete! 🌟</h2>
+          
+          <div style="font-size: 64px; margin: 18px 0;">${shieldIcons}</div>
+          <p style="font-family:'Fredoka',cursive; font-size:32px; color:#ff5722;">¡Ganaste ${shields} Escudos Cambridge!</p>
+          
+          <div style="background:#f0f8ff; border:4px solid var(--card-border); border-radius:28px; padding:24px; max-width:700px; margin:20px auto;">
+            <p style="font-size:28px; font-weight:800; color:#1e1e4b;">Puntaje: ${score} / 25 puntos</p>
+            <p style="color:#64748b; font-weight:700; margin-top:8px; font-size:19px;">¡Gran trabajo! Revisa el detalle de tus respuestas a continuación:</p>
+          </div>
+
+          <div class="feedback-panel-card">
+            <div class="feedback-part-title">🎧 Part 1 — Draw Lines (Fancy Dress Party)</div>
+            ${p1Fb}
+
+            <div class="feedback-part-title">📝 Part 2 — Richard's Family Notes</div>
+            ${p2Fb}
+
+            <div class="feedback-part-title">🔍 Part 3 — Vicky's Grandpa's Things</div>
+            ${p3Fb}
+
+            <div class="feedback-part-title">☑️ Part 4 — Multiple Choice (Bill & Dad)</div>
+            ${p4Fb}
+
+            <div class="feedback-part-title">🎨 Part 5 — Colour, Draw & Write (Garden BBQ)</div>
+            ${p5Fb}
+          </div>
+
+          ${snapshotHtml}
+
+          <div style="display:flex; justify-content:center; gap:22px; margin-top:36px; flex-wrap:wrap;">
+            <a href="index.html" class="btn-act btn-prev" style="text-decoration:none;">⬅ Volver al Mapa</a>
+            <a href="reading-mock04.html" class="btn-act btn-next" style="text-decoration:none;">Ir a Reading & Writing ➔</a>
+          </div>
+        </div>
+      `;
+    }
+
+    renderScreen();
+  </script>
+</body>
+</html>
