@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A2 Flyers Mock 09 - Reading & Writing | Dr. Jesús Miguel Lima E.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-sky: #dcf2ff;
+      --bubble-cyan: #00c4cc;
+      --bubble-blue: #0284c7;
+      --bubble-yellow: #ffb800;
+      --bubble-orange: #ff5722;
+      --bubble-green: #00d084;
+      --bubble-purple: #7928ca;
+      --text-dark: #121829;
+      --text-sub: #334155;
+      --white: #ffffff;
+      --card-border: #a5d8ff;
+      --correct: #00d084;
+      --wrong: #ff5722;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(180deg, #b3e0ff 0%, #dbf0ff 40%, #fff2d6 100%);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+      font-size: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .glowing-aura {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+      z-index: 0;
+      animation: pulseGlow 7s ease-in-out infinite alternate;
+    }
+    .aura-cyan { width: 550px; height: 550px; background: rgba(0, 196, 204, 0.4); top: -120px; left: -100px; }
+    .aura-yellow { width: 620px; height: 620px; background: rgba(255, 184, 0, 0.35); bottom: -120px; right: -100px; animation-delay: -3.5s; }
+    .aura-purple { width: 480px; height: 480px; background: rgba(121, 40, 202, 0.28); top: 35%; right: 25%; animation-delay: -5s; }
+
+    @keyframes pulseGlow {
+      0% { transform: scale(1) translate(0, 0); opacity: 0.65; }
+      50% { transform: scale(1.22) translate(35px, 25px); opacity: 1; filter: blur(120px); }
+      100% { transform: scale(0.92) translate(-25px, -18px); opacity: 0.65; }
+    }
+
+    .top-nav {
+      height: 86px;
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom: 4px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      box-shadow: 0 10px 24px rgba(37, 117, 252, 0.12);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+
+    .btn-back-home {
+      background: #ffffff;
+      border: 3.5px solid #cbd5e1;
+      border-radius: 999px;
+      padding: 10px 24px;
+      font-family: 'Fredoka', cursive;
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--text-sub);
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 5px 0 #cbd5e1;
+      transition: all 0.15s ease;
+    }
+    .btn-back-home:hover { transform: translateY(-2px); box-shadow: 0 7px 0 #cbd5e1; }
+
+    .exam-tag {
+      font-family: 'Fredoka', cursive;
+      font-size: 22px;
+      color: #0b5cab;
+      background: #e1f2ff;
+      border: 3px solid #bfe3ff;
+      padding: 10px 26px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .timer-badge {
+      font-family: 'Fredoka', cursive;
+      font-size: 21px;
+      color: #523100;
+      background: #fff3cc;
+      border: 3.5px solid #ffcc00;
+      padding: 8px 24px;
+      border-radius: 999px;
+      box-shadow: 0 5px 0 #e6b800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .main-wrap {
+      max-width: 1240px;
+      width: 100%;
+      margin: 30px auto 50px auto;
+      padding: 0 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 1;
+    }
+
+    .exam-card {
+      background: rgba(255, 255, 255, 0.98);
+      border: 5px solid var(--card-border);
+      border-radius: 40px;
+      padding: 42px;
+      box-shadow: 0 18px 40px rgba(37, 117, 252, 0.16);
+      position: relative;
+    }
+
+    .part-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    .part-title {
+      font-family: 'Fredoka', cursive;
+      font-size: 32px;
+      color: #0b5cab;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .instructions-box {
+      background: #f0f8ff;
+      border-left: 10px solid var(--bubble-cyan);
+      border-radius: 0 24px 24px 0;
+      padding: 20px 28px;
+      font-size: 21px;
+      color: #1e293b;
+      font-weight: 700;
+      margin-bottom: 28px;
+      line-height: 1.55;
+    }
+
+    .pill-bank {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      background: #f8fbff;
+      padding: 20px;
+      border-radius: 28px;
+      border: 3.5px dashed var(--card-border);
+    }
+
+    .word-pill {
+      font-family: 'Fredoka', cursive;
+      font-size: 20px;
+      background: #ffffff;
+      border: 3.5px solid var(--bubble-blue);
+      color: var(--bubble-blue);
+      padding: 8px 24px;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 0 5px 0 var(--bubble-blue);
+      transition: all 0.15s ease;
+    }
+    .word-pill:hover { transform: translateY(-2px); }
+    .word-pill.selected {
+      background: var(--bubble-orange);
+      border-color: #d83d0f;
+      color: #ffffff;
+      box-shadow: 0 0 20px rgba(255, 87, 34, 0.7), 0 5px 0 #b32a00;
+      transform: scale(1.08);
+    }
+    .word-pill.used {
+      background: #e2e8f0;
+      border-color: #cbd5e1;
+      color: #94a3b8;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+
+    .reading-content-box {
+      background: #ffffff;
+      border: 4px solid var(--card-border);
+      border-radius: 30px;
+      padding: 30px;
+      margin-bottom: 24px;
+      box-shadow: 0 8px 20px rgba(37, 117, 252, 0.06);
+    }
+
+    .qa-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 16px 0;
+      border-bottom: 2px dashed #e2e8f0;
+      font-weight: 700;
+      font-size: 20px;
+    }
+    .qa-row:last-child { border-bottom: none; }
+    .qa-text { flex: 1; line-height: 1.5; }
+
+    .interactive-line-slot {
+      min-width: 220px;
+      padding: 10px 18px;
+      border: 3px dashed var(--bubble-blue);
+      border-radius: 16px;
+      background: #f8fbff;
+      text-align: center;
+      font-family: 'Fredoka', cursive;
+      font-size: 20px;
+      color: var(--bubble-blue);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .interactive-line-slot.filled {
+      border: 3px solid var(--bubble-cyan);
+      background: var(--bubble-cyan);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 196, 204, 0.35);
+    }
+    .interactive-line-slot.example-slot {
+      border: 3px solid var(--bubble-green);
+      background: #dcfce7;
+      color: #15803d;
+      cursor: default;
+    }
+
+    .toggle-btn-group {
+      display: flex;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .toggle-btn {
+      font-family: 'Fredoka', cursive;
+      font-size: 19px;
+      padding: 8px 24px;
+      border-radius: 999px;
+      border: 3px solid #cbd5e1;
+      background: #ffffff;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #cbd5e1;
+      transition: all 0.15s ease;
+    }
+    .toggle-btn:hover { transform: translateY(-2px); }
+    .toggle-btn.sel-yes {
+      background: var(--bubble-green);
+      border-color: #15803d;
+      color: #ffffff;
+      box-shadow: 0 4px 0 #15803d;
+    }
+    .toggle-btn.sel-no {
+      background: var(--bubble-orange);
+      border-color: #c2410c;
+      color: #ffffff;
+      box-shadow: 0 4px 0 #c2410c;
+    }
+
+    .reference-stage {
+      text-align: center;
+      margin-bottom: 26px;
+      border-radius: 28px;
+      overflow: hidden;
+      border: 4px solid var(--card-border);
+      background: #f8fafc;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+    }
+    .reference-stage img, .reference-stage svg {
+      width: 100%;
+      max-height: 480px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .chat-speaker-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+    .speaker-avatar {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--card-border);
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      flex-shrink: 0;
+    }
+
+    .letter-dropdown {
+      width: 64px;
+      height: 56px;
+      border: 3.5px solid var(--text-dark);
+      border-radius: 16px;
+      background: #ffffff;
+      font-family: 'Fredoka', cursive;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--bubble-orange);
+      text-align: center;
+      outline: none;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #94a3b8;
+    }
+    .letter-dropdown:focus {
+      border-color: var(--bubble-cyan);
+      box-shadow: 0 0 14px rgba(0, 196, 204, 0.6);
+    }
+
+    .input-reading {
+      font-family: 'Fredoka', cursive;
+      font-size: 21px;
+      font-weight: 600;
+      padding: 8px 18px;
+      border: 3.5px solid var(--card-border);
+      border-radius: 16px;
+      outline: none;
+      color: #0b5cab;
+      background: #f8fbfe;
+      transition: all 0.2s;
+    }
+    .input-reading:focus {
+      border-color: var(--bubble-cyan);
+      background: #ffffff;
+      box-shadow: 0 0 0 5px rgba(0, 196, 204, 0.25);
+    }
+
+    .title-choice-card {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 18px 24px;
+      border-radius: 20px;
+      border: 3.5px solid #cbd5e1;
+      background: #ffffff;
+      cursor: pointer;
+      box-shadow: 0 5px 0 #cbd5e1;
+      font-family: 'Fredoka', cursive;
+      font-size: 22px;
+      transition: all 0.15s ease;
+      color: var(--text-dark);
+      margin-bottom: 12px;
+    }
+    .title-choice-card:hover {
+      border-color: var(--bubble-cyan);
+      transform: translateY(-2px);
+    }
+    .title-choice-card.selected {
+      background: #f0fdf4;
+      border-color: var(--bubble-green);
+      color: #15803d;
+      box-shadow: 0 5px 0 #15803d;
+      transform: scale(1.01);
+    }
+    .title-choice-card input[type="radio"] {
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      accent-color: #15803d;
+    }
+
+    .story-reading-box {
+      font-size: 22px;
+      line-height: 2.1;
+      color: #1e293b;
+      font-weight: 600;
+      background: #ffffff;
+      border: 4px solid var(--card-border);
+      border-radius: 30px;
+      padding: 34px;
+      box-shadow: 0 10px 24px rgba(37, 117, 252, 0.08);
+      margin-bottom: 28px;
+    }
+
+    .cloze-dropdown {
+      font-family: 'Fredoka', cursive;
+      font-size: 21px;
+      font-weight: 700;
+      color: var(--bubble-blue);
+      background: #f8fbff;
+      border: 3px solid var(--bubble-blue);
+      border-radius: 14px;
+      padding: 4px 14px;
+      outline: none;
+      cursor: pointer;
+      box-shadow: 0 3px 0 var(--bubble-blue);
+      margin: 0 4px;
+    }
+    .cloze-dropdown:focus { border-color: var(--bubble-orange); box-shadow: 0 3px 0 #c2410c; }
+
+    .feedback-panel-card {
+      background: #ffffff;
+      border: 3.5px solid var(--card-border);
+      border-radius: 28px;
+      padding: 28px 32px;
+      max-width: 960px;
+      margin: 28px auto 0 auto;
+      text-align: left;
+      box-shadow: 0 10px 24px rgba(37, 117, 252, 0.08);
+    }
+    .feedback-part-title {
+      font-family: 'Fredoka', cursive;
+      font-size: 24px;
+      color: #0b5cab;
+      border-bottom: 2.5px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-top: 24px;
+      margin-bottom: 12px;
+    }
+    .feedback-part-title:first-child { margin-top: 0; }
+    .feedback-item-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 8px 0;
+      font-size: 18px;
+      line-height: 1.45;
+    }
+    .fb-tag {
+      font-family: 'Fredoka', cursive;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+    .fb-correct { background: #dcfce7; color: #15803d; border: 1.5px solid #86efac; }
+    .fb-wrong { background: #fee2e2; color: #b91c1c; border: 1.5px solid #fca5a5; }
+
+    .bottom-bar {
+      margin-top: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+      flex-wrap: wrap;
+    }
+    .btn-act {
+      font-family: 'Fredoka', cursive;
+      font-size: 21px;
+      font-weight: 600;
+      padding: 18px 42px;
+      border-radius: 999px;
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+    .btn-next {
+      background: linear-gradient(180deg, #2fd277 0%, #15b35c 100%);
+      color: #ffffff;
+      box-shadow: 0 7px 0 #0d8a44, 0 12px 24px rgba(21, 179, 92, 0.4);
+    }
+    .btn-next:hover { transform: translateY(-3px); box-shadow: 0 10px 0 #0d8a44; }
+
+    .btn-finish-all {
+      background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
+      color: #ffffff;
+      box-shadow: 0 7px 0 #075985, 0 12px 24px rgba(2, 132, 199, 0.4);
+    }
+    .btn-finish-all:hover { transform: translateY(-3px); box-shadow: 0 10px 0 #075985; }
+
+    .btn-prev {
+      background: #ffffff;
+      border: 3.5px solid #cbd5e1;
+      color: #64748b;
+      box-shadow: 0 6px 0 #94a3b8;
+    }
+
+    @media (max-width: 980px) {
+      .top-nav { padding: 0 20px; }
+      .exam-card { padding: 24px; }
+      .qa-row { flex-direction: column; align-items: flex-start; }
+      .interactive-line-slot { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glowing-aura aura-cyan"></div>
+  <div class="glowing-aura aura-yellow"></div>
+  <div class="glowing-aura aura-purple"></div>
+
+  <header class="top-nav">
+    <a href="index.html" class="btn-back-home">⬅ Exit to Map</a>
+    <div class="exam-tag"><span>📖</span> Mock 09 • Reading & Writing</div>
+    <div class="timer-badge">
+      <span>⏰</span> <span id="timerTxt">45:00</span>
+      <span style="font-size:14px; color:#78350f; font-weight:700;">(Practice Mode)</span>
+    </div>
+  </header>
+
+  <main class="main-wrap">
+    <div class="exam-card" id="examMount"></div>
+  </main>
+
+  <script>
+    let currentPart = 1;
+    let selectedWordP1 = null;
+
+    const userAnswers = {
+      p1: { q1: "", q2: "", q3: "", q4: "", q5: "", q6: "", q7: "", q8: "", q9: "", q10: "" },
+      p2: { q1: "", q2: "", q3: "", q4: "", q5: "", q6: "", q7: "" },
+      p3: { q1: "", q2: "", q3: "", q4: "", q5: "" },
+      p4: { q1: "", q2: "", q3: "", q4: "", q5: "", q6: "" },
+      p5: { q1: "", q2: "", q3: "", q4: "", q5: "", q6: "", q7: "" },
+      p6: { q1: "", q2: "", q3: "", q4: "", q5: "", q6: "", q7: "", q8: "", q9: "", q10: "" },
+      p7: { q1: "", q2: "", q3: "", q4: "", q5: "" }
+    };
+
+    // Official Cambridge Flyers Mock 09 Answer Key
+    const answerKey = {
+      p1: {
+        q1: ["a chemist's", "chemists", "a chemists"],
+        q2: ["wood"],
+        q3: ["a hospital"],
+        q4: ["an address"],
+        q5: ["a diary"],
+        q6: ["a year"],
+        q7: ["presents"],
+        q8: ["midday"],
+        q9: ["stamps"],
+        q10: ["glass"]
+      },
+      p2: {
+        q1: "yes",
+        q2: "yes",
+        q3: "yes",
+        q4: "no",
+        q5: "yes",
+        q6: "yes",
+        q7: "no"
+      },
+      p3: {
+        q1: "B",
+        q2: "H",
+        q3: "F",
+        q4: "C",
+        q5: "G"
+      },
+      p4: {
+        q1: ["afraid"],
+        q2: ["open"],
+        q3: ["torch"],
+        q4: ["stripes"],
+        q5: ["find"],
+        q6: "David's hobby"
+      },
+      p5: {
+        q1: ["harrys cage", "the rabbits cage", "the cage", "harrys the rabbits cage"],
+        q2: ["carrots"],
+        q3: ["the playground", "playground"],
+        q4: ["find the rabbit", "find harry", "find the rabbit anywhere", "find harry anywhere"],
+        q5: ["teacher", "the teacher"],
+        q6: ["hop or jump at all", "hop or jump", "jump or hop"],
+        q7: ["six babies", "six baby rabbits", "6 babies", "6 baby rabbits"]
+      },
+      p6: {
+        q1: "are",
+        q2: "them",
+        q3: "other",
+        q4: "their",
+        q5: "looking",
+        q6: "but",
+        q7: "make",
+        q8: "about",
+        q9: "her",
+        q10: "when"
+      },
+      p7: {
+        q1: ["it"],
+        q2: ["of"],
+        q3: ["played", "found", "downloaded"],
+        q4: ["in", "during"],
+        q5: ["saw", "watched", "enjoyed"]
+      }
+    };
+
+    function cleanInput(str) {
+      return (str || "")
+        .toLowerCase()
+        .replace(/[’‘`]/g, "'")
+        .replace(/[^\w\s']/g, "")
+        .trim();
+    }
+
+    function tryMultipleBases(imgEl, baseNames, currentBaseIdx = 0, currentExtIdx = 0) {
+      const exts = ['.jpg', '.png', '.jpeg', '.webp', '.svg'];
+      if (currentBaseIdx < baseNames.length) {
+        if (currentExtIdx < exts.length) {
+          imgEl.onerror = () => tryMultipleBases(imgEl, baseNames, currentBaseIdx, currentExtIdx + 1);
+          imgEl.src = baseNames[currentBaseIdx] + exts[currentExtIdx];
+        } else {
+          tryMultipleBases(imgEl, baseNames, currentBaseIdx + 1, 0);
+        }
+      } else {
+        imgEl.style.display = 'none';
+      }
+    }
+
+    let secondsLeft = 45 * 60;
+    const timerInterval = setInterval(() => {
+      if (secondsLeft <= 0) {
+        clearInterval(timerInterval);
+        alert("⏰ Practice Time is up! Reviewing your scores now...");
+        finishExam();
+        return;
+      }
+      secondsLeft--;
+      const m = Math.floor(secondsLeft / 60).toString().padStart(2, '0');
+      const s = (secondsLeft % 60).toString().padStart(2, '0');
+      const timerEl = document.getElementById('timerTxt');
+      if (timerEl) timerEl.textContent = `${m}:${s}`;
+    }, 1000);
+
+    function nextPart(step) { currentPart = step; renderScreen(); }
+    function prevPart(step) { currentPart = step; renderScreen(); }
+
+    function renderScreen() {
+      const mount = document.getElementById('examMount');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      if (currentPart === 1) renderPart1(mount);
+      else if (currentPart === 2) renderPart2(mount);
+      else if (currentPart === 3) renderPart3(mount);
+      else if (currentPart === 4) renderPart4(mount);
+      else if (currentPart === 5) renderPart5(mount);
+      else if (currentPart === 6) renderPart6(mount);
+      else if (currentPart === 7) renderPart7(mount);
+      else if (currentPart === 8) renderResults(mount);
+    }
+
+    // ==========================================
+    // PART 1: DEFINITIONS (10 Questions)
+    // ==========================================
+    function renderPart1(mount) {
+      const words = [
+        "metal", "a pocket", "a museum", "stamps", "midday",
+        "glass", "wood", "a year", "a handbag", "an address",
+        "a diary", "a hospital", "presents", "a chemist's"
+      ];
+
+      const questions = [
+        { id: "q1", text: "You can buy medicines, toothbrushes and combs from this shop." },
+        { id: "q2", text: "This comes from trees and we make tables and chairs with it." },
+        { id: "q3", text: "There are doctors and nurses in this place. You go there if you are very ill." },
+        { id: "q4", text: "You write this on an envelope. Then the postman can take it to the correct house." },
+        { id: "q5", text: "This is a book with spaces to write in for each day of the year." },
+        { id: "q6", text: "This begins in January and ends in December." },
+        { id: "q7", text: "These are things that you give to people who you like." },
+        { id: "q8", text: "This is the time of the day which comes between morning and afternoon." },
+        { id: "q9", text: "You can buy these from post offices and you put them on letters before you post them." },
+        { id: "q10", text: "We use this for the windows of cars and houses. You can see through it." }
+      ];
+
+      let bankHtml = words.map(w => {
+        const isUsed = Object.values(userAnswers.p1).includes(w);
+        const isSel = selectedWordP1 === w;
+        return `<button class="word-pill ${isUsed ? 'used' : ''} ${isSel ? 'selected' : ''}" onclick="pickWordP1('${w}')">${w}</button>`;
+      }).join('');
+
+      let listHtml = questions.map((q, idx) => {
+        const val = userAnswers.p1[q.id] || "Choose word";
+        const isFilled = val !== "Choose word";
+        return `
+          <div class="qa-row">
+            <div class="qa-text"><b>${idx + 1}.</b> ${q.text}</div>
+            <div class="interactive-line-slot ${isFilled ? 'filled' : ''}" onclick="placeWordP1('${q.id}')">${val}</div>
+          </div>
+        `;
+      }).join('');
+
+      mount.innerHTML = `
+        <div class="part-banner">
+          <h2 class="part-title"><span>📚</span> Part 1 — Definitions & Vocabulary</h2>
+        </div>
+        <div class="instructions-box">
+          Look and read. Choose the correct words and write them on the lines. Tap a word above to select it, then tap the line next to its definition!
+        </div>
+        <div class="pill-bank">${bankHtml}</div>
+        <div class="reading-content-box">
+          <div class="qa-row" style="background:#f8fbff; border-radius:14px; padding:12px 18px; margin-bottom:12px;">
+            <div class="qa-text"><b>Example:</b> This is a time of the year when the weather is hot and people often go to the beach or on holiday.</div>
+            <div class="interactive-line-slot example-slot">summer</div>
+          </div>
+          ${listHtml}
+        </div>
+        <div class="bottom-bar">
+          <div></div>
+          <button class="btn-act btn-next" onclick="nextPart(2)">Continue to Part 2 ➔</button>
+        </div>
+      `;
+    }
+
+    function pickWordP1(w) {
+      if (Object.values(userAnswers.p1).includes(w)) return;
+      selectedWordP1 = (selectedWordP1 === w) ? null : w;
+      renderPart1(document.getElementById('examMount'));
+    }
+
+    function placeWordP1(qId) {
+      if (!selectedWordP1) {
+        if (userAnswers.p1[qId]) {
+          userAnswers.p1[qId] = "";
+          renderPart1(document.getElementById('examMount'));
+        }
+        return;
+      }
+      userAnswers.p1[qId] = selectedWordP1;
+      selectedWordP1 = null;
+      renderPart1(document.getElementById('examMount'));
+    }
+
+    // ==========================================
+    // PART 2: PICTURE VERIFICATION (7 Questions)
+    // ==========================================
+    function renderPart2(mount) {
+      const questions = [
+        { id: "q1", text: "The boys who are crossing the road near the school are carrying umbrellas." },
+        { id: "q2", text: "Some children are standing at a bus stop and a yellow bus has stopped next to them." },
+        { id: "q3", text: "The person on the motorbike is talking to a woman who is wearing a hat and gloves." },
+        { id: "q4", text: "The monkey is swinging from the tree on the corner of the street." },
+        { id: "q5", text: "The children in front of the school are wearing blue and white jackets." },
+        { id: "q6", text: "Two people are pushing a car with a flag on it." },
+        { id: "q7", text: "The boy who has got a rucksack is listening to music." }
+      ];
+
+      let listHtml = questions.map((q, idx) => {
+        const val = userAnswers.p2[q.id];
+        return `
+          <div class="qa-row">
+            <div class="qa-text"><b>${idx + 1}.</b> ${q.text}</div>
+            <div class="toggle-btn-group">
+              <button class="toggle-btn ${val === 'yes' ? 'sel-yes' : ''}" onclick="setP2Answer('${q.id}', 'yes')">yes</button>
+              <button class="toggle-btn ${val === 'no' ? 'sel-no' : ''}" onclick="setP2Answer('${q.id}', 'no')">no</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      mount.innerHTML = `
+        <div class="part-banner">
+          <h2 class="part-title"><span>🏫</span> Part 2 — Look and read: yes or no</h2>
+        </div>
+        <div class="instructions-box">
+          Look and read carefully. Choose <b>yes</b> or <b>no</b> for each sentence according to the scene.
+        </div>
+        <div class="reference-stage" style="border: 4px solid var(--bubble-blue); max-width: 820px; margin: 0 auto 26px auto; box-shadow: 0 12px 28px rgba(2, 132, 199, 0.2);">
+          <img src="mock09-part2-scene.jpg" alt="Street scene outside school and bookshop" onerror="tryMultipleBases(this, ['mock09-part2-scene', 'part2-scene'], 0, 1)">
+        </div>
+        <div class="reading-content-box">
+          <div class="qa-row" style="background:#f8fbff; border-radius:14px; padding:12px 18px; margin-bottom:8px;">
+            <div class="qa-text"><b>Example 1:</b> The boy standing in front of the bookshop is buying some fruit.</div>
+            <span style="font-family:'Fredoka'; font-weight:700; color:#15803d; font-size:22px;">yes</span>
+          </div>
+          <div class="qa-row" style="background:#f8fbff; border-radius:14px; padding:12px 18px; margin-bottom:14px;">
+            <div class="qa-text"><b>Example 2:</b> A red lorry is next to a shop and a man is taking some bicycles from it.</div>
+            <span style="font-family:'Fredoka'; font-weight:700; color:#b91c1c; font-size:22px;">no</span>
+          </div>
+          ${listHtml}
+        </div>
+        <div class="bottom-bar">
+          <button class="btn-act btn-prev" onclick="prevPart(1)">⬅ Back</button>
+          <button class="btn-act btn-next" onclick="nextPart(3)">Continue to Part 3 ➔</button>
+        </div>
+      `;
+    }
+
+    function setP2Answer(qId, val) {
+      userAnswers.p2[qId] = val;
+      renderPart2(document.getElementById('examMount'));
+    }
+
+    // ==========================================
+    // PART 3: DIALOGUE MATCHING (5 Questions)
+    // ==========================================
+    function renderPart3(mount) {
+      const dialogue = [
+        { id: "q1", text: "Did you have fun on your holiday?" },
+        { id: "q2", text: "Where did you go?" },
+        { id: "q3", text: "What was the weather like there?" },
+        { id: "q4", text: "What did you do there?" },
+        { id: "q5", text: "Well, I stayed at home which is boring, isn't it?" }
+      ];
+
+      const options = [
+        { letter: "A", text: "I won't enjoy going there." },
+        { letter: "B", text: "Yes, I did. It was great, thanks." },
+        { letter: "C", text: "Lots of different things but I sailed a lot." },
+        { letter: "D", text: "It's going to rain again tomorrow." },
+        { letter: "E", text: "Yes, I have. I arrived home yesterday. (Example)" },
+        { letter: "F", text: "It was sunny for most of the time." },
+        { letter: "G", text: "Perhaps next year you'll go away, too." },
+        { letter: "H", text: "To a place called Smalltown, near the sea." }
+      ];
+
+      let lettersOptions = `<option value="">-</option>` + ["A","B","C","D","E","F","G","H"].map(l => `<option value="${l}">${l}</option>`).join('');
+
+      const michaelAvatar = "https://images.unsplash.com/photo-1543332164-6e82f355badc?auto=format&fit=crop&w=150&q=80";
+      const tomAvatar = "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80";
+
+      let dialogueHtml = dialogue.map((d) => {
+        const val = userAnswers.p3[d.id] || "";
+        return `
+          <div class="qa-row" style="align-items:flex-start;">
+            <div class="qa-text">
+              <div class="chat-speaker-row">
+                <img src="${michaelAvatar}" alt="Michael" class="speaker-avatar">
+                <div>
+                  <div style="color:#0b5cab; font-weight:800; font-size:18px;">Michael</div>
+                  <div style="color:#1e293b;">"${d.text}"</div>
+                </div>
+              </div>
+              <div class="chat-speaker-row" style="margin-left: 20px; margin-top: 10px;">
+                <img src="${tomAvatar}" alt="Tom" class="speaker-avatar">
+                <div>
+                  <div style="color:#d97706; font-weight:800; font-size:18px;">Tom</div>
+                  <div style="color:#64748b;">[Choose response letter A–H]</div>
+                </div>
+              </div>
+            </div>
+            <select class="letter-dropdown" onchange="setP3Answer('${d.id}', this.value)" style="margin-top:16px;">
+              ${lettersOptions.replace(`value="${val}"`, `value="${val}" selected`)}
+            </select>
+          </div>
+        `;
+      }).join('');
+
+      let optionsListHtml = options.map(o => `
+        <div style="padding:10px 14px; background:#ffffff; border-radius:14px; border:2px solid #e2e8f0; font-size:18px; margin-bottom:8px;">
+          <b style="color:var(--bubble-blue);">${o.letter}</b>: ${o.text}
+        </div>
+      `).join('');
+
+      mount.innerHTML = `
+        <div class="part-banner">
+          <h2 class="part-title"><span>🏖️</span> Part 3 — Conversation: Michael & Tom</h2>
+        </div>
+        <div class="instructions-box">
+          Michael is talking to his friend Tom about his school holidays. Read the conversation and choose the best answer (A–H).
+        </div>
+        <div class="reference-stage" style="max-width:620px; margin:0 auto 24px auto;">
+          <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=1200&q=80" alt="Two boys talking outside wearing caps" onerror="tryMultipleBases(this, ['mock09-part3-scene', 'part3-scene'], 0, 0)">
+        </div>
+        <div style="display:grid; grid-template-columns: 1.15fr 0.85fr; gap:24px;">
+          <div class="reading-content-box">
+            <div class="qa-row" style="background:#f8fbff; border-radius:14px; padding:14px 18px; margin-bottom:12px;">
+              <div class="qa-text">
+                <div class="chat-speaker-row">
+                  <img src="${michaelAvatar}" alt="Michael" class="speaker-avatar">
+                  <div>
+                    <div style="color:#0b5cab; font-weight:800; font-size:18px;">Michael</div>
+                    <div style="color:#1e293b;">"Hi, Tom. Have you been on holiday?"</div>
+                  </div>
+                </div>
+                <div class="chat-speaker-row" style="margin-left: 20px; margin-top: 10px;">
+                  <img src="${tomAvatar}" alt="Tom" class="speaker-avatar">
+                  <div>
+                    <div style="color:#15803d; font-weight:800; font-size:18px;">Tom (Example)</div>
+                    <div style="color:#15803d; font-weight:700;">E — "Yes, I have. I arrived home yesterday."</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            ${dialogueHtml}
+          </div>
+          <div style="background:#f8fbff; border-radius:30px; border:4px solid var(--card-border); padding:24px; height:fit-content;">
+            <h3 style="font-family:'Fredoka'; color:#0b5cab; margin-bottom:14px; font-size:24px;">Answers Box (A–H)</h3>
+            ${optionsListHtml}
+          </div>
+        </div>
+        <div class="bottom-bar">
+          <button class="btn-act btn-prev" onclick="prevPart(2)">⬅ Back</button>
+          <button class="btn-act btn-next" onclick="nextPart(4)">Continue to Part 4 ➔</button>
+        </div>
+      `;
+    }
+
+    function setP3Answer(qId, val) {
+      userAnswers.p3[qId] = val;
+    }
+
+    // ==========================================
+    // PART 4: STORY CLOZE & TITLE (6 Questions)
+    // ==========================================
+    function renderPart4(mount) {
+      const words = ["camera", "dream", "find", "grow", "afraid", "stripes", "brush", "torch", "open", "hungry"];
+      let wordOptionsHtml = `<option value="">choose</option>` + words.map(w => `<option value="${w}">${w}</option>`).join('');
+
+      function getDropdown(qId) {
+        const val = userAnswers.p4[qId] || "";
+        return `
+          <select class="cloze-dropdown" id="p4_${qId}" onchange="userAnswers.p4['${qId}'] = this.value">
+            ${wordOptionsHtml.replace(`value="${val}"`, `value="${val}" selected`)}
+          </select>
+        `;
+      }
+
+      const titles = [
+        "David's hobby",
+        "David catches a fish",
+        "David loses his camera"
+      ];
+
+      let titleOptionsHtml = titles.map((t, idx) => {
+        const isChecked = userAnswers.p4.q6 === t;
+        return `
+          <label class="title-choice-card ${isChecked ? 'selected' : ''}" id="lbl_title_${idx}">
+            <input type="radio" name="p4_title_choice" value="${t}" ${isChecked ? 'checked' : ''} onchange="pickP4Title('${t}', ${idx})">
+            <span>${t}</span>
+          </label>
+        `;
+      }).join('');
+
+      mount.innerHTML = `
+        <div class="part-banner">
+          <h2 class="part-title"><span>🐠</span> Part 4 — Story & Best Title</h2>
+        </div>
+        <div class="instructions-box">
+          Read the story. Choose a word from the box for each number (1–5). Then choose the best name for the story.
+        </div>
+        <div class="reference-stage" style="max-width:640px; margin:0 auto 24px auto;">
+          <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80" alt="Underwater coral reef with colourful fish" onerror="tryMultipleBases(this, ['mock09-part4-scene', 'part4-scene'], 0, 0)">
+        </div>
+        <div class="pill-bank" style="margin-bottom:20px;">
+          ${words.map(w => `<span class="word-pill" style="cursor:default;">${w}</span>`).join('')}
+        </div>
+        <div class="story-reading-box">
+          My name's David. I love taking pictures of fish and I've got a brilliant <span style="color:#15803d; font-weight:800; border-bottom:3px solid #15803d; padding:0 6px;">camera</span> <i>(example)</i>. It's heavy but I can use it under the water.<br><br>
+          Last year, my dad and I saw a shark. It was a small one and Dad said, 'Don't be (1) ${getDropdown('q1')}. This kind isn't dangerous.' I took some excellent pictures of it. In one picture its mouth is (2) ${getDropdown('q2')} so you can see all its teeth. I've also taken a picture of an octopus.<br><br>
+          Sometimes I go swimming under the water at night. I have a (3) ${getDropdown('q3')} which helps me to see in the dark. I can use it under the water. I saw a strange fish last week. It had lots of black and yellow (4) ${getDropdown('q4')} on its back. It looked like a tiger!<br><br>
+          I asked my dad about it, but he didn't know its name. I'm going again next Sunday during the day. I will take a photo of it if I can (5) ${getDropdown('q5')} it again.
+        </div>
+        <div class="reading-content-box">
+          <h3 style="font-family:'Fredoka'; color:#0b5cab; font-size:24px; margin-bottom:16px;">(6) Now choose the best name for this story:</h3>
+          <div>${titleOptionsHtml}</div>
+        </div>
+        <div class="bottom-bar">
+          <button class="btn-act btn-prev" onclick="savePart4(); prevPart(3);">⬅ Back</button>
+          <button class="btn-act btn-next" onclick="savePart4(); nextPart(5);">Continue to Part 5 ➔</button>
+        </div>
+      `;
+    }
+
+    function pickP4Title(val, selIdx) {
+      userAnswers.p4.q6 = val;
+      for (let i = 0; i < 3; i++) {
+        const lbl = document.getElementById(`lbl_title_${i}`);
+        if (lbl) {
+          if (i === selIdx) lbl.classList.add('selected');
+          else lbl.classList.remove('selected');
+        }
+      }
+    }
+
+    function savePart4() {
+      for (let i = 1; i <= 5; i++) {
+        const el = document.getElementById(`p4_q${i}`);
+        if (el) userAnswers.p4[`q${i}`] = el.value;
+      }
+    }
+
+    // ==========================================
+    // PART 5: THE SCHOOL RABBITS (7 Questions)
+    // ==========================================
+    function renderPart5(mount) {
+      const questions = [
+        { id: "q1", before: "1. Richard cleaned", after: "every day." },
+        { id: "q2", before: "2. The vegetables that the rabbit liked best were", after: "." },
+        { id: "q3", before: "3. The children carried Harry's cage into", after: "sometimes." },
+        { id: "q4", before: "4. When the children couldn't", after: ", they felt very sad." },
+        { id: "q5", before: "5. Richard's", after: "got a new rabbit for the class." },
+        { id: "q6", before: "6. The new rabbit was very fat and didn't", after: "outside the cage." },
+        { id: "q7", before: "7. Everyone was surprised when the new rabbit had", after: "." }
+      ];
+
+      let listHtml = questions.map(q => {
+        return `
+          <div class="qa-row" style="flex-wrap:wrap; line-height:2;">
+            <div class="qa-text">
+              ${q.before} 
+              <input type="text" class="input-reading" id="p5_${q.id}" value="${userAnswers.p5[q.id]}" style="width:260px;"> 
+              ${q.after}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      mount.innerHTML = `
+        <div class="part-banner">
+          <h2 class="part-title"><span>🐰</span> Part 5 — The School Rabbits</h2>
+        </div>
+        <div class="instructions-box">
+          Look at the picture and read the story. Write some words to complete the sentences about the story. You can use <b>1, 2, 3 or 4 words</b>.
+        </div>
+        <div class="reference-stage" style="max-width:620px; margin:0 auto 24px auto;">
+          <img src="https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?auto=format&fit=crop&w=1200&q=80" alt="Schoolchildren observing pet rabbit cage with teacher" onerror="tryMultipleBases(this, ['mock09-part5-scene', 'part5-scene'], 0, 0)">
+        </div>
+        <div class="story-reading-box">
+          <h3 style="font-family:'Fredoka'; color:#0b5cab; text-align:center; margin-bottom:18px; font-size:28px;">The school rabbits</h3>
+          My name's Richard and I'm 11. At school, our class had a pet rabbit called Harry. His fur was brown and white. Every day I cleaned Harry's cage and gave him water. We brought him carrots, which were his favourite food. Sometimes we took Harry's box outside into the playground. We took him out of his cage and then he could smell clean air and hop on the grass.<br><br>
+          One day when we took Harry outside we left him there because it was sunny. But when we came out after the lessons, we couldn't find Harry anywhere. We were very sad.<br><br>
+          'Perhaps he went to the park to live with the other rabbits,' said our teacher.<br>
+          The next day, she brought another rabbit to school. This one was black and we decided to call him Jim.<br><br>
+          Jim was a fat rabbit and he ate all the food we brought him. When we took him out of his cage, he just lay down. He did not hop or jump at all. Then, one morning, I saw six baby rabbits inside the cage! I ran to tell our teacher. Then all the children in the class went to look at the babies. We were all very surprised!<br><br>
+          'Well!' said our teacher. 'We'll have to call our new rabbit Jane now!'
+        </div>
+        <div class="reading-content-box">
+          <div style="background:#f8fbff; border-radius:14px; padding:14px; margin-bottom:14px; font-size:19px; line-height:1.6;">
+            <b>Examples:</b><br>
+            The name of the rabbit in Richard's class was <span style="text-decoration:underline; color:#0b5cab; font-weight:700;">Harry</span>.<br>
+            The rabbit had <span style="text-decoration:underline; color:#0b5cab; font-weight:700;">brown and white</span> fur.
+          </div>
+          ${listHtml}
+        </div>
+        <div class="bottom-bar">
+          <button class="btn-act btn-prev" onclick="savePart5(); prevPart(4);">⬅ Back</button>
+          <button class="btn-act btn-next" onclick="savePart5(); nextPart(6);">Continue to Part 6 ➔</button>
+        </div>
+      `;
+    }
+
+    function savePart5() {
+      for (let i = 1; i <= 7; i++) {
+        const el = document.getElementById(`p5_q${i}`);
+        if (el) userAnswers.p5[`q${i}`] = el.value.trim();
+      }
+    }
+
+    // ==========================================
+    // PART 6: DUCKS AND SWANS (CLOZE TEXT 10 Questions)
+    // ==========================================
+    function renderPart6(mount) {
+      const options = {
+        q1: ["is", "are", "be"],
+        q2: ["they", "them", "their"],
+        q3: ["other", "another", "every"],
+        q4: ["his", "their", "our"],
+        q5: ["looking", "look", "looked"],
+        q6: ["if", "but", "because"],
+        q7: ["make", "makes", "made"],
+        q8: ["above", "across", "about"],
+        q9: ["she", "her", "hers"],
+        q10: ["then", "than", "when"]
+      };
+
+      function getDropdownP6(qId) {
+        const val = userAnswers.p6[qId] || "";
+        let opts = `<option value="">choose</option>` + options[qId].map(o => `<option value="${o}">${o}</option>`).join('');
+        return `
+          <select class="cloze-dropdown" id="p6_${qId}" onchange="userAnswers.p6['${qId}'] = this.value">
+            ${opts.replace(`value="${val}"`, `value="${val}" selected`)}
+          </select>
+        `;
+      }
+
+      // Gráfico vectorial nítido de cisnes y patos en el lago
+      const swansSvg = `
+        <svg viewBox="0 0 800 360" width="100%" height="100%" style="display:block; border-radius:24px; background:linear-gradient(180deg, #bae6fd 0%, #7dd3fc 45%, #0284c7 100%);">
+          <!-- Orilla verde con vegetación acuática -->
+          <path d="M520 0 Q640 120 800 160 L800 0 Z" fill="#86efac"/>
+          <path d="M540 0 Q660 140 800 190 L800 0 Z" fill="#22c55e" opacity="0.8"/>
+          
+          <!-- Agua y ondas -->
+          <ellipse cx="260" cy="240" rx="160" ry="16" fill="#38bdf8" opacity="0.6"/>
+          <ellipse cx="620" cy="270" rx="90" ry="10" fill="#38bdf8" opacity="0.6"/>
+
+          <!-- Cisne blanco adulto a la izquierda -->
+          <g transform="translate(240, 160) scale(1.15)">
+            <ellipse cx="20" cy="45" rx="55" ry="32" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+            <path d="M50 40 Q40 5 -5 -15 Q-20 -25 -5 -35 Q5 -35 5 -20 Q10 15 35 30 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+            <polygon points="-5,-35 -24,-31 -7,-27" fill="#ea580c"/>
+            <circle cx="-5" cy="-30" r="2.5" fill="#0f172a"/>
+            <!-- Alas detalladas -->
+            <path d="M0 35 Q30 20 60 40 Q25 55 5 45 Z" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2"/>
+          </g>
+
+          <!-- Cría de cisne (Cygnet gris) nadando detrás -->
+          <g transform="translate(370, 210) scale(0.65)">
+            <ellipse cx="10" cy="30" rx="30" ry="18" fill="#94a3b8"/>
+            <path d="M25 25 Q15 0 -2 -10 Q-10 -15 -2 -20 Q5 -20 5 -10 Q8 10 20 20 Z" fill="#94a3b8"/>
+            <polygon points="-2,-20 -15,-18 -3,-15" fill="#475569"/>
+            <circle cx="-2" cy="-17" r="1.8" fill="#0f172a"/>
+          </g>
+
+          <!-- Patos nadando cerca de la orilla derecha -->
+          <g transform="translate(630, 180) scale(0.85)">
+            <!-- Pato ánade real macho con cabeza verde -->
+            <ellipse cx="15" cy="35" rx="36" ry="20" fill="#78350f"/>
+            <path d="M-5 35 Q5 15 15 5 Q22 -5 32 0 Q36 10 28 20 Z" fill="#15803d"/>
+            <polygon points="32,0 44,4 34,7" fill="#facc15"/>
+            <circle cx="28" cy="4" r="2" fill="#000000"/>
+            <path d="M5 25 Q25 25 35 38 Q15 42 5 32 Z" fill="#475569"/>
+          </g>
+        </svg>
+      `;
+
+      mount.innerHTML = `
+        <div class="part-banner">
+          <h2 class="part-title"><span>🦆</span> Part 6 — Ducks and Swans (Grammar Cloze)</h2>
+        </div>
+        <div class="instructions-box">
+          Read the text. Choose the right words and write them on the lines (1–10).
+        </div>
+        <div class="reference-stage" style="max-width:680px; margin:0 auto 24px auto; border-radius:26px; border:4px solid #0284c7; box-shadow:0 12px 28px rgba(2, 132, 199, 0.25);">
+          ${swansSvg}
+        </div>
+        <div class="story-reading-box">
+          <h3 style="font-family:'Fredoka'; color:#0b5cab; text-align:center; margin-bottom:18px; font-size:28px;">Ducks and Swans</h3>
+          There are many different kinds of ducks and swans and they <span style="text-decoration:underline; color:#15803d; font-weight:700;">live</span> <i>(example)</i> on the lakes and rivers of the world. They have short legs and feet which (1) ${getDropdownP6('q1')} good for moving in the water, but not very good for walking or running.<br><br>
+          Many of (2) ${getDropdownP6('q2')} have long necks which they use to get to their food under the water. They often fly to different places to find food. Ducks eat small frogs and (3) ${getDropdownP6('q3')} little water animals.<br><br>
+          Some people have ducks because (4) ${getDropdownP6('q4')} eggs and meat are good to eat. People also have some kinds of ducks because they like (5) ${getDropdownP6('q5')} at their beautiful colours.<br><br>
+          Swans are heavy birds, (6) ${getDropdownP6('q6')} they can fly, too. They fly to far places to find more food. They (7) ${getDropdownP6('q7')} places for their eggs out of grass, on the ground or on little islands. After (8) ${getDropdownP6('q8')} a month, baby swans come out of the eggs. Baby swans are called 'cygnets'. Sometimes the mother swan carries the cygnets on (9) ${getDropdownP6('q9')} back when she is in the water. The cygnets can fly (10) ${getDropdownP6('q10')} they are three months old.
+        </div>
+        <div class="bottom-bar">
+          <button class="btn-act btn-prev" onclick="savePart6(); prevPart(5);">⬅ Back</button>
+          <button class="btn-act btn-next" onclick="savePart6(); nextPart(7);">Continue to Part 7 ➔</button>
+        </div>
+      `;
+    }
+
+    function savePart6() {
+      for (let i = 1; i <= 10; i++) {
+        const el = document.getElementById(`p6_q${i}`);
+        if (el) userAnswers.p6[`q${i}`] = el.value;
+      }
+    }
+
+    // ==========================================
+    // PART 7: OPEN CLOZE LETTER (5 Questions)
+    // ==========================================
+    function renderPart7(mount) {
+      mount.innerHTML = `
+        <div class="part-banner">
+          <h2 class="part-title"><span>✉️</span> Part 7 — Open Cloze: Letter to Aunt May</h2>
+        </div>
+        <div class="instructions-box">
+          Read the letter and write the missing words. <b>Write one word on each line.</b>
+        </div>
+        <div class="reference-stage" style="max-width:540px; margin:0 auto 24px auto;">
+          <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1200&q=80" alt="Boy writing letter sitting at table with pen" onerror="tryMultipleBases(this, ['mock09-part7-scene', 'part7-scene'], 0, 0)">
+        </div>
+        <div class="story-reading-box" style="font-family:'Quicksand',sans-serif; border-left:14px solid var(--bubble-blue); max-width:880px; margin:0 auto;">
+          <h3 style="font-family:'Fredoka'; color:#0b5cab; font-size:26px; margin-bottom:14px;">Sunday August 9th</h3>
+          <p style="margin-bottom:12px;">Dear Aunt May,</p>
+          <p style="margin-bottom:16px;">
+            Thank you for the beautiful sweater you <span style="text-decoration:underline; font-weight:800; color:#15803d;">sent</span> <i>(example)</i> me for my birthday.
+          </p>
+          <p style="margin-bottom:16px;">
+            I wore (1) <input type="text" class="input-reading" id="p7_q1" value="${userAnswers.p7.q1}" style="width:130px;"> on my birthday and I like the colours very much.
+          </p>
+          <p style="margin-bottom:16px;">
+            On my birthday, three (2) <input type="text" class="input-reading" id="p7_q2" value="${userAnswers.p7.q2}" style="width:130px;"> my friends came to my house and we (3) <input type="text" class="input-reading" id="p7_q3" value="${userAnswers.p7.q3}" style="width:150px;"> some games on the computer.
+          </p>
+          <p style="margin-bottom:16px;">
+            Then we went to a restaurant to have pizza. (4) <input type="text" class="input-reading" id="p7_q4" value="${userAnswers.p7.q4}" style="width:130px;"> the afternoon we went to the cinema and (5) <input type="text" class="input-reading" id="p7_q5" value="${userAnswers.p7.q5}" style="width:150px;"> a film. It was a good birthday.
+          </p>
+          <p style="margin-top:20px;">
+            Thanks again for the sweater.<br><br>
+            From,<br>
+            <b>Bill</b>
+          </p>
+        </div>
+        <div class="bottom-bar">
+          <button class="btn-act btn-prev" onclick="savePart7(); prevPart(6);">⬅ Back</button>
+          <button class="btn-act btn-next" onclick="savePart7(); finishExam();">Finish Exam ➔</button>
+        </div>
+      `;
+    }
+
+    function savePart7() {
+      for (let i = 1; i <= 5; i++) {
+        const el = document.getElementById(`p7_q${i}`);
+        if (el) userAnswers.p7[`q${i}`] = el.value.trim();
+      }
+    }
+
+    // ==========================================
+    // SCORE CALCULATION & DETAILED FEEDBACK
+    // ==========================================
+    function finishExam() {
+      savePart7();
+      currentPart = 8;
+      renderScreen();
+    }
+
+    function renderResults(mount) {
+      clearInterval(timerInterval);
+
+      let totalScore = 0;
+      let fb = { p1: [], p2: [], p3: [], p4: [], p5: [], p6: [], p7: [] };
+
+      // Part 1 (10 marks)
+      for (let k in answerKey.p1) {
+        const u = cleanInput(userAnswers.p1[k]);
+        const isOk = answerKey.p1[k].includes(u);
+        if (isOk) totalScore++;
+        fb.p1.push({ q: k.toUpperCase(), user: userAnswers.p1[k] || "(empty)", correct: answerKey.p1[k][0], ok: isOk });
+      }
+
+      // Part 2 (7 marks)
+      for (let k in answerKey.p2) {
+        const u = (userAnswers.p2[k] || "").toLowerCase();
+        const isOk = u === answerKey.p2[k];
+        if (isOk) totalScore++;
+        fb.p2.push({ q: k.toUpperCase(), user: userAnswers.p2[k] || "(empty)", correct: answerKey.p2[k], ok: isOk });
+      }
+
+      // Part 3 (5 marks)
+      for (let k in answerKey.p3) {
+        const u = (userAnswers.p3[k] || "").toUpperCase();
+        const isOk = u === answerKey.p3[k];
+        if (isOk) totalScore++;
+        fb.p3.push({ q: k.toUpperCase(), user: userAnswers.p3[k] || "(empty)", correct: answerKey.p3[k], ok: isOk });
+      }
+
+      // Part 4 (6 marks: 5 cloze + 1 title)
+      for (let k of ["q1","q2","q3","q4","q5"]) {
+        const u = cleanInput(userAnswers.p4[k]);
+        const isOk = answerKey.p4[k].includes(u);
+        if (isOk) totalScore++;
+        fb.p4.push({ q: k.toUpperCase(), user: userAnswers.p4[k] || "(empty)", correct: answerKey.p4[k][0], ok: isOk });
+      }
+      const titleOk = userAnswers.p4.q6 === answerKey.p4.q6;
+      if (titleOk) totalScore++;
+      fb.p4.push({ q: "Q6 (TITLE)", user: userAnswers.p4.q6 || "(empty)", correct: answerKey.p4.q6, ok: titleOk });
+
+      // Part 5 (7 marks)
+      for (let k in answerKey.p5) {
+        const u = cleanInput(userAnswers.p5[k]);
+        const isOk = answerKey.p5[k].some(ans => cleanInput(ans) === u);
+        if (isOk) totalScore++;
+        fb.p5.push({ q: k.toUpperCase(), user: userAnswers.p5[k] || "(empty)", correct: answerKey.p5[k][0], ok: isOk });
+      }
+
+      // Part 6 (10 marks)
+      for (let k in answerKey.p6) {
+        const u = cleanInput(userAnswers.p6[k]);
+        const isOk = answerKey.p6[k];
+        if (u === isOk) totalScore++;
+        fb.p6.push({ q: k.toUpperCase(), user: userAnswers.p6[k] || "(empty)", correct: answerKey.p6[k], ok: u === isOk });
+      }
+
+      // Part 7 (5 marks)
+      for (let k in answerKey.p7) {
+        const u = cleanInput(userAnswers.p7[k]);
+        const isOk = answerKey.p7[k].includes(u);
+        if (isOk) totalScore++;
+        fb.p7.push({ q: k.toUpperCase(), user: userAnswers.p7[k] || "(empty)", correct: answerKey.p7[k].join(' / '), ok: isOk });
+      }
+
+      let shields = 1;
+      if (totalScore >= 40) shields = 5;
+      else if (totalScore >= 32) shields = 4;
+      else if (totalScore >= 24) shields = 3;
+      else if (totalScore >= 16) shields = 2;
+
+      function renderFbSection(title, list) {
+        return `
+          <div class="feedback-part-title">${title}</div>
+          ${list.map(item => `
+            <div class="feedback-item-row">
+              <span class="fb-tag ${item.ok ? 'fb-correct' : 'fb-wrong'}">${item.ok ? 'CORRECT' : 'REVIEW'}</span>
+              <div>
+                <b>${item.q}:</b> Your answer: <i>"${item.user}"</i> 
+                ${!item.ok ? `➔ Correct: <b style="color:#0b5cab;">${item.correct}</b>` : ''}
+              </div>
+            </div>
+          `).join('')}
+        `;
+      }
+
+      mount.innerHTML = `
+        <div style="text-align:center; margin-bottom:30px;">
+          <h2 style="font-family:'Fredoka'; font-size:42px; color:#0b5cab;">A2 Flyers Mock Test 9 Completed! 🎉</h2>
+          <p style="color:var(--text-sub); font-size:22px; font-weight:700; margin-top:8px;">Reading & Writing Component</p>
+          <div style="font-size:44px; margin:20px 0;">
+            ${"🛡️".repeat(shields)} ${"⚪".repeat(5 - shields)}
+          </div>
+          <div style="font-family:'Fredoka'; font-size:32px; color:#15803d;">
+            Score: ${totalScore} / 44 (${Math.round((totalScore/44)*100)}%) • ${shields} Shields
+          </div>
+        </div>
+
+        <div class="feedback-panel-card">
+          <h3 style="font-family:'Fredoka'; color:#0b5cab; font-size:28px; margin-bottom:16px;">Detailed Pedagogical Feedback</h3>
+          ${renderFbSection("Part 1 — Definitions & Vocabulary", fb.p1)}
+          ${renderFbSection("Part 2 — Picture Verification (yes / no)", fb.p2)}
+          ${renderFbSection("Part 3 — Dialogue Matching (A–H)", fb.p3)}
+          ${renderFbSection("Part 4 — Story Cloze & Title", fb.p4)}
+          ${renderFbSection("Part 5 — The School Rabbits", fb.p5)}
+          ${renderFbSection("Part 6 — Ducks and Swans (Grammar Cloze)", fb.p6)}
+          ${renderFbSection("Part 7 — Open Cloze: Letter to Aunt May", fb.p7)}
+        </div>
+
+        <div class="bottom-bar" style="justify-content:center; gap:20px;">
+          <button class="btn-act btn-prev" onclick="location.reload()">🔄 Try Mock Again</button>
+          <a href="index.html" class="btn-act btn-finish-all">Complete & Return to Map 🗺️</a>
+        </div>
+      `;
+    }
+
+    renderScreen();
+  </script>
+</body>
+</html>
